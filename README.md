@@ -1,5 +1,7 @@
 # MPSAdminApp - Built Using Nebular Template Kit & Angular
 
+Badges ![build passing](https://raw.githubusercontent.com/dwyl/repo-badges/master/highresPNGs/build-passing.png)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8.
 
 ## Development server
