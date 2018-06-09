@@ -1,6 +1,6 @@
 # MPSAdminApp - Built Using Nebular Template Kit & Angular
 
-Badges [![Build Passing](https://img.shields.io/badge/start%20with-why%3F-brightgreen.svg?style=flat)](http://www.ted.com/talks/simon_sinek_how_great_leaders_inspire_action)
+Badges [![Build Passing](https://img.shields.io/badge/Build%20Passing%3F-brightgreen.svg?style=flat)](http://www.ted.com/talks/simon_sinek_how_great_leaders_inspire_action)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8.
 
