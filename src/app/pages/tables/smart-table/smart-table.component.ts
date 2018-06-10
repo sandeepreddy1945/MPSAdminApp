@@ -1,24 +1,20 @@
 /*tslint:disable*/
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
 
 import { SmartTableService } from '../../../@core/data/smart-table.service';
-// import 'style-loader!angular2-toaster/toaster.css';
+import 'style-loader!angular2-toaster/toaster.css';
 
 import { Member } from '../../../@model/member';
 
 @Component( {
     selector: 'ngx-smart-table',
     templateUrl: './smart-table.component.html',
-    styles: [`
-    nb-card {
-      transform: translate3d(0, 0, 0);
-    }
-  `],
+    styleUrls: ['./smart-table.component.scss']
 } )
 /*For Doctumentation on this visit https://akveo.github.io/ng2-smart-table/#/documentation*/
-export class SmartTableComponent {
+export class SmartTableComponent implements OnInit {
 
     settings = {
         add: {
@@ -40,7 +36,7 @@ export class SmartTableComponent {
         columns: {
             portalId: {
                 title: 'Portal ID',
-                type: 'number',
+                type: 'string',
                 filter: false,
             },
             fullName: {
@@ -66,12 +62,16 @@ export class SmartTableComponent {
         },
     };
 
-    source: LocalDataSource = new LocalDataSource();
+    source: LocalDataSource;
 
     constructor( private service: SmartTableService, private toasterService: ToasterService ) {
-        const data = this.service.getData();
-        this.source.load( data );
+
     }
+
+    ngOnInit() {
+        this.getAllMembers();
+    }
+
 
     config: ToasterConfig;
 
@@ -102,6 +102,18 @@ export class SmartTableComponent {
 
     makeToast() {
         this.showToast( this.type, this.title, this.content );
+    }
+
+    /**
+     * Fetches all the table data and adds it to the table datasource .
+     * Called in init method has the advantage that this will instantiate the source with the data source as well.
+     */
+    getAllMembers(): void {
+        this.service.reteriveAllMembers().subscribe( o => { this.source = new LocalDataSource( o ) }
+            , err => {
+                this.onErrorToaster( err.message )
+            },
+            () => { this.showToast( 'success', 'Member Table', 'Successfully Loaded !!' );} );
     }
 
     openRandomToast() {
@@ -140,7 +152,14 @@ export class SmartTableComponent {
 
     onDeleteConfirm( event ): void {
         if ( window.confirm( 'Are you sure you want to delete?' ) ) {
-            console.log( event.data );
+            var data: any = event.data;
+            var member: Member = new Member( data.portalId, data.fullName, data.email,
+                data.designation, data.experience );
+            this.service.deleteMember( member ).subscribe( o => {
+                this.showToast( 'success', 'Member with Portal Id: ' + member.portalId, 'Successfully Deleted !!' );
+            }, err => {
+                this.onErrorToaster( err.message )
+            } );
             event.confirm.resolve();
         } else {
             console.log( event.data );
@@ -154,23 +173,36 @@ export class SmartTableComponent {
      * @param event
      */
     onCreateConfirm( event ): void {
-        var data = event.newData;
-        var member = new Member( data.portalId, data.fullName, data.email,
+        var data: any = event.newData;
+        var member: Member = new Member( data.portalId, data.fullName, data.email,
             data.designation, data.experience );
 
-        var set: Set<Member> = new Set();
         var memberArray: Member[] = event.source.data;
-        console.log( memberArray );
         var identifiedMember = memberArray.find(( m: Member ) => parseInt( m.portalId.toString() ) === parseInt( member.portalId.toString() ) );
-        console.log( identifiedMember );
         var isMemberExists: boolean = identifiedMember ? true : false;
         if ( isMemberExists ) {
-            this.openRandomToast();
+            // if member exists then show a message indicationg the same
+            this.showToast( 'info', 'Member with Portal Id: ' + member.portalId, 'Already Exists !!' );
+            event.confirm.reject();
+        } else if ( !this.validateMemberJson( member ) ) {
+            this.showToast( 'error', 'Some Fields are empty', 'Fill in All Fields' );
+            event.confirm.reject();
         }
-        console.log( isMemberExists );
+        else {
+            // if member added show success message   
+            this.service.saveNewEntry( member ).subscribe( o => {
+                this.showToast( 'success', 'Member with Portal Id: ' + member.portalId, 'Successfully Added !!' );
+            }, err => {
+                this.onErrorToaster( err.message )
+            } );
+            event.confirm.resolve();
+        }
 
-        this.service.saveNewEntry( member );
-        event.confirm.resolve();
+    }
+
+    validateMemberJson( m: Member ): boolean {
+        var isValid: boolean = m ? m.portalId && m.designation && m.email && m.experience && m.fullName ? true : false : false;
+        return isValid;
     }
 
     /**
@@ -178,10 +210,30 @@ export class SmartTableComponent {
      * @param event
      */
     onEditConfirm( event ): void {
-        console.log( event.data );
-        console.log( event.newData );
-        console.log( event.source );
+        var oldMember: Member = event.data;
+        var newMember: Member = event.newData;
+
+        if ( oldMember == newMember ) {
+            this.showToast( 'info', 'No Data Changed', '' );
+            event.confirm.reject();
+        } else if ( !this.validateMemberJson( newMember ) ) {
+            this.showToast( 'error', 'Some Fields are empty', 'Fill in All Fields' );
+            event.confirm.reject();
+        } else {
+            var memberArray: string[] = [JSON.stringify( oldMember ), JSON.stringify( newMember )];
+            this.service.editOldEntry( memberArray ).subscribe( o => {
+                this.showToast( 'success', 'Member with Portal Id: ' + newMember.portalId, 'Successfully Edited !!' );
+            }, err => {
+                this.onErrorToaster( err.message )
+            } );
+            event.confirm.resolve();
+        }
+
         event.confirm.resolve();
+    }
+
+    onErrorToaster( s: string ): void {
+        this.showToast( 'error', 'Error Occured', s );
     }
 
     onSearch( query: string = '' ) {

@@ -1,11 +1,11 @@
 export class Member {
-    portalId: number;
+    portalId: string;
     fullName: string;
     email: string;
     designation: string;
     experience: number;
 
-    constructor( portalId: number,
+    constructor( portalId: string,
         fullName: string,
         email: string,
         designation: string,
