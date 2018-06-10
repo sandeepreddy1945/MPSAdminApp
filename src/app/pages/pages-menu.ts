@@ -62,42 +62,46 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 title: 'Form Layouts',
                 link: '/pages/forms/layouts',
             },
+            {
+                title: 'Member Detail Form',
+                link: '/pages/forms/memberDetailForm',
+            },
         ],
     },
     {
-      title: 'Components',
-      icon: 'nb-gear',
-      children: [
-        {
-          title: 'Tree',
-          link: '/pages/components/tree',
-        }, {
-          title: 'Notifications',
-          link: '/pages/components/notifications',
-        },
-      ],
+        title: 'Components',
+        icon: 'nb-gear',
+        children: [
+            {
+                title: 'Tree',
+                link: '/pages/components/tree',
+            }, {
+                title: 'Notifications',
+                link: '/pages/components/notifications',
+            },
+        ],
     },
     {
-      title: 'Maps',
-      icon: 'nb-location',
-      children: [
-        {
-          title: 'Google Maps',
-          link: '/pages/maps/gmaps',
-        },
-        {
-          title: 'Leaflet Maps',
-          link: '/pages/maps/leaflet',
-        },
-        {
-          title: 'Bubble Maps',
-          link: '/pages/maps/bubble',
-        },
-        {
-          title: 'Search Maps',
-          link: '/pages/maps/searchmap',
-        },
-      ],
+        title: 'Maps',
+        icon: 'nb-location',
+        children: [
+            {
+                title: 'Google Maps',
+                link: '/pages/maps/gmaps',
+            },
+            {
+                title: 'Leaflet Maps',
+                link: '/pages/maps/leaflet',
+            },
+            {
+                title: 'Bubble Maps',
+                link: '/pages/maps/bubble',
+            },
+            {
+                title: 'Search Maps',
+                link: '/pages/maps/searchmap',
+            },
+        ],
     },
     {
         title: 'Charts',
@@ -136,7 +140,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'nb-tables',
         children: [
             {
-                title: 'Smart Table',
+                title: 'Member Table',
                 link: '/pages/tables/smart-table',
             },
         ],

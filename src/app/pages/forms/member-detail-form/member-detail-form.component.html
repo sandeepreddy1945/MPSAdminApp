@@ -1,0 +1,181 @@
+<div class="row">
+	<div class="col-lg-12">
+		<nb-card> <nb-card-header>Member Detail
+		Form</nb-card-header> <nb-card-body>
+
+		<div class="input-group">
+			<span class="input-group-addon success">@</span> <input type="text"
+				class="form-control" placeholder="Full Name" [(ngModel)]="fullName" />
+		</div>
+
+		<div class="input-group mail-btn-group">
+			<span class="input-group-prepend">
+				<button class="btn btn-primary btn-icon input-group-text">
+					<i class="ion-ios-email-outline"></i>
+				</button>
+			</span> <input type="text" class="form-control" placeholder="Email Id">
+			<span class="input-group-append">
+				<button class="btn btn-primary input-group-text">
+					@example.com</button>
+			</span>
+		</div>
+
+		<!-- <div class="input-group">
+          <input type="text" placeholder="Project" class="form-control"/>
+        </div> -->
+		<div class="row full-name-inputs">
+			<div class="col-sm-6 input-group">
+				<input type="text" placeholder="Potal Id" class="form-control" />
+			</div>
+			<div class="col-sm-6 input-group">
+				<input type="text" placeholder="Employee / SAP Id"
+					class="form-control" />
+			</div>
+		</div>
+
+		<div class="row full-name-inputs">
+			<div class="col-sm-6 input-group">
+				<input type="number" placeholder="Experience In Years"
+					class="form-control" />
+			</div>
+			<div class="col-sm-6 input-group">
+				<select class="form-control">
+					<option>Gender</option>
+					<option>Male</option>
+					<option>Female</option>
+					<option>Other's</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="row full-name-inputs">
+			<div class="col-sm-6 input-group">
+				<input type="number" placeholder="Designation" class="form-control" />
+			</div>
+			<div class="col-sm-6 input-group">
+				<select class="form-control">
+					<option>Is Member Manager</option>
+					<option>Yes</option>
+					<option>No</option>
+					<option>Not Sure</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="input-group">
+			<textarea rows="5"
+				placeholder="About The Member, Comments / Appreciations If Any Included"
+				class="form-control"></textarea>
+		</div>
+		<!-- <div class="input-group input-group-sm">
+			<input type="text" placeholder="Small Input" class="form-control" />
+		</div> -->
+		<div class="input-group input-group-lg">
+			<input type="text" placeholder="Member Interest's & Hobbies"
+				class="form-control" />
+		</div>
+		</nb-card-body> </nb-card>
+
+		<nb-card> <nb-card-header>Member Scores</nb-card-header> <nb-card-body>
+
+		<div class="row full-name-inputs">
+			<div class="col-sm-4 input-group">
+				<input type="text" placeholder="Month 1 Score" class="form-control" />
+			</div>
+			<div class="col-sm-4 input-group">
+				<input type="text" placeholder="Month 2 Score" class="form-control" />
+			</div>
+			<div class="col-sm-4 input-group">
+				<input type="text" placeholder="Month 3 Score" class="form-control" />
+			</div>
+		</div>
+
+		<div class="row full-name-inputs">
+			<div class="col-sm-4 input-group">
+				<input type="text" placeholder="Value Add Score"
+					class="form-control" />
+			</div>
+			<div class="col-sm-4 input-group">
+				<input type="text" placeholder="On Quality Score"
+					class="form-control" />
+			</div>
+			<div class="col-sm-4 input-group">
+				<input type="text" placeholder="On Time Score" class="form-control" />
+			</div>
+		</div>
+
+		</nb-card-body> </nb-card>
+
+		<nb-card> <nb-card-header>Team Details</nb-card-header> <nb-card-body>
+
+		<div class="row full-name-inputs">
+			<div class="col-sm-6 input-group">
+				<input type="text" placeholder="Project Details"
+					class="form-control" />
+			</div>
+			<div class="col-sm-6 input-group">
+				<input type="text" placeholder="Team Name" class="form-control" />
+			</div>
+		</div>
+		<div class="row full-name-inputs">
+			<div class="col-sm-12 input-group">
+				<select class="form-control">
+					<option>Manger Details</option>
+					<option>Yes</option>
+					<option>No</option>
+					<option>Not Sure</option>
+				</select>
+			</div>
+		</div>
+		</nb-card-body> </nb-card>
+
+		<nb-card> <nb-card-body class="demo-rating">
+		<span class="rating-header">Rating</span>
+		<div>
+			<ngb-rating [(rate)]="starRate" max=5> <ng-template
+				let-fill="fill"> <span class="star fill"
+				[class.filled]="fill === 100"> <i class="ion-android-star"
+				*ngIf="fill === 100"></i> <i class="ion-android-star-outline"
+				*ngIf="fill !== 100"></i>
+			</span> </ng-template> </ngb-rating>
+			<span class="current-rate">{{ starRate }}</span>
+		</div>
+		</nb-card-body> </nb-card>
+
+		<nb-card> <nb-card-body class="demo-rating">
+		<span class="rating-header">Upload Member Image</span>
+		<div>
+			<input type="file" class="btn btn-success"
+				placeholder="Browse &
+				UpLoad Image" accept="image/*" (change)="handleFileEvent($event)"/>
+		</div>
+		</nb-card-body> </nb-card>
+
+		<nb-card> <nb-card-body class="demo-rating">
+		<span class="rating-header">Form Actions</span>
+		<div>
+			<button type="submit" class="btn btn-danger">Clear Form</button>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<button type="submit" class="btn btn-success">Send</button>
+		</div>
+		</nb-card-body> </nb-card>
+
+	</div>
+
+<!-- <input type="file" accept="image/*" onchange="loadFile(event)">
+<img id="output"/>
+<script>
+  var loadFile = function(event) {
+    var reader = new FileReader();
+    reader.onload = function(){
+      var output = document.getElementById('output');
+      output.src = reader.result;
+    };
+    reader.readAsDataURL(event.target.files[0]);
+  };
+</script> -->
+<!-- <img id="blah" alt="your image" width="100" height="100" />
+
+<input type="file" 
+    onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])"> -->
+</div>

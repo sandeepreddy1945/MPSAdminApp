@@ -241,7 +241,7 @@ export class SmartTableComponent implements OnInit {
     }
 
     onSearch( query: string = '' ) {
-        if ( query ) {
+        
             this.source.setFilter( [
                 // fields we want to include in the search
                 {
@@ -264,10 +264,9 @@ export class SmartTableComponent implements OnInit {
                     field: 'experience',
                     search: query,
                 },
-            ], true );
+            ], false );
             // second parameter specifying whether to perform 'AND' or 'OR' search
             // (meaning all columns should contain search query or at least one)
             // 'AND' by default, so changing to 'OR' by setting false here
         }
-    }
 }
