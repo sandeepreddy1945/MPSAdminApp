@@ -10,124 +10,125 @@ import { AnalyticsService } from './utils/analytics.service';
 import { environment } from '../../environments/environment';
 
 const socialLinks = [
-  {
-    url: 'https://github.com/akveo/nebular',
-    target: '_blank',
-    icon: 'socicon-github',
-  },
-  {
-    url: 'https://www.facebook.com/akveo/',
-    target: '_blank',
-    icon: 'socicon-facebook',
-  },
-  {
-    url: 'https://twitter.com/akveo_inc',
-    target: '_blank',
-    icon: 'socicon-twitter',
-  },
+    {
+        url: 'https://github.com/akveo/nebular',
+        target: '_blank',
+        icon: 'socicon-github',
+    },
+    {
+        url: 'https://www.facebook.com/akveo/',
+        target: '_blank',
+        icon: 'socicon-facebook',
+    },
+    {
+        url: 'https://twitter.com/akveo_inc',
+        target: '_blank',
+        icon: 'socicon-twitter',
+    },
 ];
 
 export class NbSimpleRoleProvider extends NbRoleProvider {
-  getRole() {
-    // here you could provide any role based on any auth flow
-    return observableOf('guest');
-  }
+    getRole() {
+        // here you could provide any role based on any auth flow
+        return observableOf( 'guest' );
+    }
 }
 
 export const NB_CORE_PROVIDERS = [
-  ...DataModule.forRoot().providers,
-  ...NbAuthModule.forRoot({
-    providers: {
-        email: {
-            service: NbEmailPassAuthProvider,
-            config: {
-                baseEndpoint: environment.devServerURL, // replace it with prod when used in production
-                login: {
-                    alwaysFail: false,
-                    rememberMe: true,
-                    endpoint: '/auth/sign-in',
-                    method: 'post',
-                    redirect: {
-                        success: '/pages', // redirect to dashboard once successfully authenticated.
-                        failure: null,
+    ...DataModule.forRoot().providers,
+    ...NbAuthModule.forRoot( {
+        providers: {
+            email: {
+                service: NbEmailPassAuthProvider,
+                config: {
+                    baseEndpoint: environment.devServerURL, // replace it with prod when used in production
+                    login: {
+                        alwaysFail: false,
+                        rememberMe: true,
+                        endpoint: '/auth/sign-in',
+                        method: 'post',
+                        redirect: {
+                            success: '/pages', // redirect to dashboard once successfully authenticated.
+                            failure: null,
+                        },
+                        defaultMessages: ['You have been successfully logged in.'],
                     },
-                    defaultMessages: ['You have been successfully logged in.'],
-                },
-                register: {
-                    endpoint: '/auth/sign-up',
-                    method: 'post',
-                    redirect: {
-                        success: '/pages', // redirect to dashboard once successfully authenticated.
-                        failure: null,
+                    register: {
+                        endpoint: '/auth/sign-up',
+                        method: 'post',
+                        redirect: {
+                            success: '/pages', // redirect to dashboard once successfully authenticated.
+                            failure: null,
+                        },
+                        rememberMe: true,
                     },
-                    rememberMe: true,
-                },
-                logout: {
-                    endpoint: '/auth/sign-out',
-                    method: 'post',
-                },
-                requestPass: {
-                    endpoint: '/auth/request-pass',
-                    method: 'post',
-                },
-                resetPass: {
-                    endpoint: '/auth/reset-pass',
-                    method: 'post',
-                },
-                token: {
-                    key: 'token', // this parameter tells Nebular where to look for the token
+                    logout: {
+                        endpoint: '/auth/sign-out',
+                        method: 'post',
+                    },
+                    requestPass: {
+                        endpoint: '/auth/request-pass',
+                        method: 'post',
+                    },
+                    resetPass: {
+                        endpoint: '/auth/reset-pass',
+                        method: 'post',
+                        resetPasswordTokenKey: 'sommetoken',
+                    },
+                    token: {
+                        key: 'token', // this parameter tells Nebular where to look for the token
+                    },
                 },
             },
         },
+        forms: {
+            login: {
+                socialLinks: socialLinks,
+            },
+            register: {
+                socialLinks: socialLinks,
+            },
+        },
+    } ).providers,
+    NbSecurityModule.forRoot( {
+        accessControl: {
+            guest: {
+                view: '*',
+            },
+            user: {
+                parent: 'guest',
+                create: '*',
+                edit: '*',
+                remove: '*',
+            },
+        },
+    } ).providers,
+    {
+        provide: NbRoleProvider, useClass: NbSimpleRoleProvider,
     },
-    forms: {
-      login: {
-        socialLinks: socialLinks,
-      },
-      register: {
-        socialLinks: socialLinks,
-      },
-    },
-  }).providers,
-  NbSecurityModule.forRoot({
-    accessControl: {
-      guest: {
-        view: '*',
-      },
-      user: {
-        parent: 'guest',
-        create: '*',
-        edit: '*',
-        remove: '*',
-      },
-    },
-  }).providers,
-  {
-    provide: NbRoleProvider, useClass: NbSimpleRoleProvider,
-  },
-  AnalyticsService,
+    AnalyticsService,
 ];
 
-@NgModule({
-  imports: [
-    CommonModule,
-  ],
-  exports: [
-    NbAuthModule,
-  ],
-  declarations: [],
-})
+@NgModule( {
+    imports: [
+        CommonModule,
+    ],
+    exports: [
+        NbAuthModule,
+    ],
+    declarations: [],
+} )
 export class CoreModule {
-  constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
-    throwIfAlreadyLoaded(parentModule, 'CoreModule');
-  }
+    constructor( @Optional() @SkipSelf() parentModule: CoreModule ) {
+        throwIfAlreadyLoaded( parentModule, 'CoreModule' );
+    }
 
-  static forRoot(): ModuleWithProviders {
-    return <ModuleWithProviders>{
-      ngModule: CoreModule,
-      providers: [
-        ...NB_CORE_PROVIDERS,
-      ],
-    };
-  }
+    static forRoot(): ModuleWithProviders {
+        return <ModuleWithProviders>{
+            ngModule: CoreModule,
+            providers: [
+                ...NB_CORE_PROVIDERS,
+            ],
+        };
+    }
 }

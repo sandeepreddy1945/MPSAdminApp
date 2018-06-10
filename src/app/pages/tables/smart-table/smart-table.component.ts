@@ -6,6 +6,8 @@ import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-t
 import { SmartTableService } from '../../../@core/data/smart-table.service';
 import 'style-loader!angular2-toaster/toaster.css';
 
+import { NbAuthSimpleToken, NbAuthService } from '@nebular/auth';
+
 import { Member } from '../../../@model/member';
 
 @Component( {
@@ -64,12 +66,14 @@ export class SmartTableComponent implements OnInit {
 
     source: LocalDataSource;
 
-    constructor( private service: SmartTableService, private toasterService: ToasterService ) {
+    constructor( private service: SmartTableService, private toasterService: ToasterService,
+        private authService: NbAuthService ) {
 
     }
 
     ngOnInit() {
         this.getAllMembers();
+        console.log( this.authService.getToken() );
     }
 
 
@@ -113,7 +117,7 @@ export class SmartTableComponent implements OnInit {
             , err => {
                 this.onErrorToaster( err.message )
             },
-            () => { this.showToast( 'success', 'Member Table', 'Successfully Loaded !!' );} );
+            () => { this.showToast( 'success', 'Member Table', 'Successfully Loaded !!' ); } );
     }
 
     openRandomToast() {
@@ -252,7 +256,15 @@ export class SmartTableComponent implements OnInit {
                     field: 'email',
                     search: query,
                 },
-            ], false );
+                {
+                    field: 'designation',
+                    search: query,
+                },
+                {
+                    field: 'experience',
+                    search: query,
+                },
+            ], true );
             // second parameter specifying whether to perform 'AND' or 'OR' search
             // (meaning all columns should contain search query or at least one)
             // 'AND' by default, so changing to 'OR' by setting false here

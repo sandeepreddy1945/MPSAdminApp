@@ -20,6 +20,12 @@
   nb-card {
       transform: translate3d(0, 0, 0);
    }
+  
+  .form-control {
+      margin-bottom: 1rem;
+      width: 20rem;
+      height: 2rem;
+    }
 
   /* stylelint-disable */
   toaster-container /deep/ {
