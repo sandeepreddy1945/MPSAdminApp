@@ -6,30 +6,32 @@ import { ElectricityService } from './electricity.service';
 import { StateService } from './state.service';
 import { SmartTableService } from './smart-table.service';
 import { PlayerService } from './player.service';
+import { MemberDetailFormService } from './member-detail-form.service';
 
 const SERVICES = [
-  UserService,
-  ElectricityService,
-  StateService,
-  SmartTableService,
-  PlayerService,
+    UserService,
+    ElectricityService,
+    StateService,
+    SmartTableService,
+    PlayerService,
+    MemberDetailFormService,
 ];
 
-@NgModule({
-  imports: [
-    CommonModule,
-  ],
-  providers: [
-    ...SERVICES,
-  ],
-})
-export class DataModule {
-  static forRoot(): ModuleWithProviders {
-    return <ModuleWithProviders>{
-      ngModule: DataModule,
-      providers: [
+@NgModule( {
+    imports: [
+        CommonModule,
+    ],
+    providers: [
         ...SERVICES,
-      ],
-    };
-  }
+    ],
+} )
+export class DataModule {
+    static forRoot(): ModuleWithProviders {
+        return <ModuleWithProviders>{
+            ngModule: DataModule,
+            providers: [
+                ...SERVICES,
+            ],
+        };
+    }
 }
