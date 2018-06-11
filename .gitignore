@@ -41,3 +41,8 @@ testem.log
 Thumbs.db
 .gradle/4.3/fileChanges/last-build.bin
 .gradle/4.3/fileHashes/fileHashes.lock
+.gradle/4.7/fileChanges/last-build.bin
+.gradle/4.7/fileHashes/fileHashes.lock
+.gradle/vcsWorkingDirs/gc.properties
+package-lock.json
+package.json

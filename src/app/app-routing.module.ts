@@ -14,7 +14,7 @@ const routes: Routes = [
     { path: 'pages', loadChildren: 'app/pages/pages.module#PagesModule' },
     {
         path: 'auth',
-        canActivate: [AuthGuardService],
+        // canActivate: [AuthGuardService], component placement not correct here.
         component: NbAuthComponent,
         children: [
             {
@@ -43,8 +43,8 @@ const routes: Routes = [
             },
         ],
     },
-    { path: '', redirectTo: 'auth', pathMatch: 'full' },
-    { path: '**', redirectTo: 'auth' },
+    { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
+    { path: '**', redirectTo: 'auth/login' },
 ];
 
 const config: ExtraOptions = {
