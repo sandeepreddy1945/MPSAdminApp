@@ -1,5 +1,6 @@
 /*tslint:disable*/
 import { Component, OnInit } from '@angular/core';
+import * as $ from 'jquery';
 
 @Component( {
     selector: 'member-detail-form',
@@ -20,12 +21,16 @@ export class MemberDetailFormComponent implements OnInit {
     ngOnInit() {
         this.fullName = 'Sandeep Reddy';
     }
-
+    // https://www.learnhowtoprogram.com/javascript/angular-extended/dynamic-routing-navigation page for dynamic routing
     handleFileEvent( event ): void {
-        console.log( event );
-        var reader = new FileReader();
-        console.log( event.target.files[0] );
-        console.log( window.URL.createObjectURL( event.target.files[0] ) );
-        reader.readAsDataURL( event.target.files[0] );
+        if ( event.target.files && event.target.files[0] ) {
+            var reader = new FileReader();
+            reader.onload = function( e ) {
+                // this is already a base64 result so no need to atob/btoa it.
+                var imgData = reader.result;
+                console.log(imgData);
+            };
+            reader.readAsDataURL( event.target.files[0] );
+        }
     }
 }
