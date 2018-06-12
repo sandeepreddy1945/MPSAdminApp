@@ -1,5 +1,5 @@
 /*tslint:disable*/
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as $ from 'jquery';
 import { MemberDetailFormService } from '../../../@core/data/member-detail-form.service';
 import { ManagerDetails } from '../../../@model/ManagerDetails';
