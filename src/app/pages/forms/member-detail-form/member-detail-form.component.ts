@@ -138,6 +138,7 @@ export class MemberDetailFormComponent implements OnInit, OnDestroy {
         // hint : use o for fetching the portalId and other stuff.
         // only one search bar here so don't worry for the searchType present.
         // then a service method here to auto populate the details after search is made.
+        // if possible add a info  toaster if search didnot display any results.
         // console.log( item );
         console.log( o.term );
         // console.log( b );
