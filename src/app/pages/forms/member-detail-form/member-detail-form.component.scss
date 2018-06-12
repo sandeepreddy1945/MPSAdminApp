@@ -78,6 +78,11 @@
   .full-name-inputs {
     display: flex;
   }
+ 
+  .search-container {
+    display: flex;
+    align-items: center;
+  }
 
   .input-group.has-person-icon {
     position: relative;
@@ -98,13 +103,7 @@
     }
   }
 
-  .dropdown {
-    min-width: 7rem;
-  }
-
-  .dropdown-menu {
-    width: auto;
-  }
+  
 
   .form-group label {
     padding: 0 0 0.75rem;
@@ -120,10 +119,16 @@
       color: nb-theme(color-primary);
     }
   }
-
+ 
+  
+ /* stylelint-enable */
   @include media-breakpoint-down(xs) {
     button:not(.btn-icon) {
       padding: 0.75rem 1rem;
+      font-size: 0.75rem;
+    }
+   
+    .dropdown-toggle {
       font-size: 0.75rem;
     }
   }

@@ -18,6 +18,10 @@ new ManagerDetails( '5', 'Lakshmisha' )];
 
 const sampleTeamNames: string[] = ['EnterpriseRx', 'PharmacyRx', 'Pharmaserv', 'EnterpriseRx Rapid'];
 
+const genderAttrs: string[] = ['GENDER', 'MALE', 'FEMALE', 'OTHERS'];
+
+const checkManagerAttrs: string[] = ['IS MEMBER MANAGER', 'YES', 'NO', 'NOT SURE'];
+
 @Injectable( {
     providedIn: 'root',
 
@@ -33,5 +37,13 @@ export class MemberDetailFormService {
 
     fetchTeamDetais(): Observable<string[]> {
         return observableOf( sampleTeamNames );
+    }
+
+    fetchGenderList(): Observable<string[]> {
+        return observableOf( genderAttrs );
+    }
+
+    fetchCheckManagerList(): Observable<string[]> {
+        return observableOf( checkManagerAttrs );
     }
 }

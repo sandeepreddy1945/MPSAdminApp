@@ -1,7 +1,10 @@
 <div class="row">
 	<div class="col-lg-12">
-		<nb-card> <nb-card-header>Member Detail
-		Form</nb-card-header> <nb-card-body>
+		<nb-card> <nb-card-header class="demo-rating">Member Detail
+		Form 
+		  <nb-search type="rotate-layout"  tag="searchMemberTag"
+		   class="btn-primary btn-sm " placeholder="Portal Id" hint="Search by Portal Id Only"></nb-search>
+		</nb-card-header> <nb-card-body>
 
 		<div class="input-group">
 			<span class="input-group-addon success">@</span> <input type="text"
@@ -36,13 +39,17 @@
 				<input type="number" placeholder="Experience In Years"
 					class="form-control" [(ngModel)]="mexperience" />
 			</div>
-			<div class="col-sm-6 input-group">
-				<select class="form-control" [(ngModel)]="mgender">
-					<option>Gender</option>
-					<option>Male</option>
-					<option>Female</option>
-					<option>Other's</option>
-				</select>
+			<div class="col-md-6  col-sm-6">
+				<div class="form-group">
+					<div class="dropdown" ngbDropdown>
+						<button class="btn btn-primary" type="button" ngbDropdownToggle >
+							{{ genderComboPick? genderComboPick : genderList[0]}}</button>
+						<ul ngbDropdownMenu class="dropdown-menu">
+							<li class="dropdown-item" *ngFor="let p of genderList"
+								(click)="setSelectdGender(p)">{{ p}}</li>
+						</ul>
+					</div>
+				</div>
 			</div>
 		</div>
 
@@ -51,13 +58,17 @@
 				<input type="text" placeholder="Designation" class="form-control"
 					[(ngModel)]="mdesignation" />
 			</div>
-			<div class="col-sm-6 input-group">
-				<select class="form-control" [(ngModel)]="misManager">
-					<option>Is Member Manager</option>
-					<option>Yes</option>
-					<option>No</option>
-					<option>Not Sure</option>
-				</select>
+			<div class="col-md-6  col-sm-6">
+				<div class="form-group">
+					<div class="dropdown" ngbDropdown>
+						<button class="btn btn-primary" type="button" ngbDropdownToggle >
+							{{ managerComboPick? managerComboPick : managerCheckList[0]}}</button>
+						<ul ngbDropdownMenu class="dropdown-menu">
+							<li class="dropdown-item" *ngFor="let p of managerCheckList"
+								(click)="setSelectedManagerPick(p)">{{ p}}</li>
+						</ul>
+					</div>
+				</div>
 			</div>
 		</div>
 
@@ -123,18 +134,19 @@
 		</div>
 
 		<div class="row full-name-inputs">
-			<div class="col-sm-12 input-group">
-				<label> Select Manager From The Drop Down </label>
-			</div>
-		</div>
-
-
-		<div class="row full-name-inputs">
-			<div class="col-sm-12 input-group">
-				<select class="form-control" [(ngModel)]="mmanagerDetails"
-					placeholder="Manager Details">
-					<option *ngFor="let item of managerDetails" [ngValue]="item.portalId">{{item.name}}</option>
-				</select>
+			<div class="col-md-12  col-sm-12">
+				<div class="form-group">
+					<label class="form-control-label">Select Manager From The
+						Drop Down List</label>
+					<div class="dropdown" ngbDropdown>
+						<button class="btn btn-primary" type="button" ngbDropdownToggle >
+							{{ position? position.name : managerDetails[0].name}}</button>
+						<ul ngbDropdownMenu class="dropdown-menu">
+							<li class="dropdown-item" *ngFor="let p of managerDetails"
+								(click)="setSelectedManager(p)">{{ p.name }}</li>
+						</ul>
+					</div>
+				</div>
 			</div>
 		</div>
 		</nb-card-body> </nb-card>
