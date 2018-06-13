@@ -7,6 +7,8 @@ import { MemberDetails } from '../../../@model/memberDetails';
 import { NbSearchService } from '@nebular/theme';
 import { Subscription, Observable } from 'rxjs';
 import { delay, withLatestFrom, tap } from 'rxjs/operators';
+import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
+import 'style-loader!angular2-toaster/toaster.css';
 
 @Component( {
     selector: 'member-detail-form',
@@ -25,6 +27,7 @@ export class MemberDetailFormComponent implements OnInit, OnDestroy {
     managerCheckList: string[];
     managerComboPick: string;
     genderComboPick: string;
+    imageFileData: string;
 
     // all variables initialization
     mfullName: string;
@@ -38,19 +41,20 @@ export class MemberDetailFormComponent implements OnInit, OnDestroy {
     misManager: string;
     mcomments: string;
     mhobbies: string;
-    mmonth1score: string;
-    mmonth2score: string;
-    mmonth3score: string;
-    mvalueAddScore: string;
-    monQualityScore: string;
-    monTimeScore: string;
+    mmonth1score: number;
+    mmonth2score: number;
+    mmonth3score: number;
+    mvalueAddScore: number;
+    monQualityScore: number;
+    monTimeScore: number;
     mprojectDetails: string;
     mteamName: string;
     mimageFile: string;
 
     protected searchClick$: Subscription;
 
-    constructor( private memberService: MemberDetailFormService, private searchService: NbSearchService ) {
+    constructor( private memberService: MemberDetailFormService, private searchService: NbSearchService,
+        private toasterService: ToasterService ) {
         this.searchClick$ = this.searchService.onSearchDeactivate().subscribe( o => { } );
         this.searchService.onSearchDeactivate().pipe( withLatestFrom( this.searchService.onSearchSubmit(),
             this.searchService.onSearchActivate() ) )
@@ -72,17 +76,60 @@ export class MemberDetailFormComponent implements OnInit, OnDestroy {
         console.log( 'On Destroy Called' );
     }
     // https://www.learnhowtoprogram.com/javascript/angular-extended/dynamic-routing-navigation page for dynamic routing
-    handleFileEvent( event ): void {
+    handleFileEvent( event ) {
         if ( event.target.files && event.target.files[0] ) {
             var reader = new FileReader();
-            reader.onload = function( e ) {
+            reader.onload = e => {
                 // this is already a base64 result so no need to atob/btoa it.
-                var imgData = reader.result;
-                console.log( imgData );
+                var imgData: string = reader.result;
+                //console.log( imgData );
+                this.imageFileData = imgData;
             };
             reader.readAsDataURL( event.target.files[0] );
+
         }
     }
+
+    /*********************************
+     * Toaster Configuration starts here
+     * ********************************/
+
+    config: ToasterConfig;
+
+    toasterPosition = 'toast-top-right';
+    animationType = 'fade';
+    timeout = 5000;
+    toastsLimit = 5;
+
+    isNewestOnTop = true;
+    isHideOnClick = true;
+    isDuplicatesPrevented = false;
+    isCloseButton = true;
+
+    private showToast( type: string, title: string, body: string ) {
+        this.config = new ToasterConfig( {
+            positionClass: this.toasterPosition,
+            timeout: this.timeout,
+            newestOnTop: this.isNewestOnTop,
+            tapToDismiss: this.isHideOnClick,
+            preventDuplicates: this.isDuplicatesPrevented,
+            animation: this.animationType,
+            limit: this.toastsLimit,
+        } );
+        const toast: Toast = {
+            type: type,
+            title: title,
+            body: body,
+            timeout: this.timeout,
+            showCloseButton: this.isCloseButton,
+            bodyOutputType: BodyOutputType.TrustedHtml,
+        };
+        this.toasterService.popAsync( toast );
+    }
+
+    /*********************************
+     * Toaster Configuration Ends here
+     * ********************************/
 
     /**
      * Fetches the Manager Details List Available.
@@ -123,11 +170,19 @@ export class MemberDetailFormComponent implements OnInit, OnDestroy {
 
     setSelectdGender( m: string ): void {
         this.genderComboPick = m;
+        this.mgender = m;
+        if ( m === 'GENDER' ) {
+            this.showToast( 'warning', 'Gender Option', 'Not Valid Input Selected!!' );
+        }
         console.log( this.genderComboPick );
     }
 
     setSelectedManagerPick( m: string ): void {
         this.managerComboPick = m;
+        this.misManager = m;
+        if ( m === 'IS MEMBER MANAGER' ) {
+            this.showToast( 'warning', 'Manager Option', 'Not Valid Input Selected!!' );
+        }
         console.log( this.managerComboPick );
     }
 
@@ -141,6 +196,7 @@ export class MemberDetailFormComponent implements OnInit, OnDestroy {
         // if possible add a info  toaster if search didnot display any results.
         // console.log( item );
         console.log( o.term );
+        this.showToast( 'info', 'Member with Portal Id ' + o.term, 'Not Found !!' )
         // console.log( b );
     }
 
@@ -157,7 +213,7 @@ export class MemberDetailFormComponent implements OnInit, OnDestroy {
      * @param event
      */
     clearForm( event ): void {
-
+        this.showToast( 'success', 'All Form Details', 'Cleared Successfully !!' );
     }
 
     /**
@@ -166,13 +222,71 @@ export class MemberDetailFormComponent implements OnInit, OnDestroy {
      * @param event
      */
     sendForm( event ): void {
+        if ( this.validateAllFields() ) {
+            console.log( this.buildMemberDetailObject() );
+            this.showToast( 'success', 'Member Added', 'Successfully !!' );
+        } else {
+            console.log( 'All Fields are not yet valid' );
+            this.showToast( 'warning', 'Required Fields Missing', 'Fill All Required Fields' );
+        }
 
     }
 
     /**
      * Validates all the fields and then presents true if the form is valid or false if there any missing fields.
+     * 
+     * In here only image file is optional field.
      */
     validateAllFields(): boolean {
-        return false;
+        var isFormValid: boolean = this.mfullName ?
+            this.mrating &&
+                this.memailId &&
+                this.mportalId &&
+                this.memployeeId &&
+                this.mexperience &&
+                this.mgender &&
+                this.mdesignation &&
+                this.misManager &&
+                this.mcomments &&
+                this.mhobbies &&
+                this.mmonth1score &&
+                this.mmonth2score &&
+                this.mmonth3score &&
+                this.mvalueAddScore &&
+                this.monQualityScore &&
+                this.monTimeScore &&
+                this.mprojectDetails &&
+                this.mteamName &&
+                this.mgender !== 'GENDER' &&
+                this.misManager !== 'IS MEMBER MANAGER'
+                //  && this.mimageFile 
+                ? true : false : false;
+
+        return isFormValid;
+    }
+
+    buildMemberDetailObject(): MemberDetails {
+        return new MemberDetails( this.mfullName,
+            this.memailId,
+            this.mportalId,
+            this.memployeeId,
+            this.mexperience,
+            this.mgender,
+            this.mdesignation,
+            this.misManager,
+            this.mcomments,
+            this.mhobbies,
+            this.mmonth1score,
+            this.mmonth2score,
+            this.mmonth3score,
+            this.mvalueAddScore,
+            this.monQualityScore,
+            this.monTimeScore,
+            this.mprojectDetails,
+            this.mteamName,
+            this.position,
+            this.mrating,
+            this.imageFileData // set the image file data rather than the image file URL.
+        );
     }
 }

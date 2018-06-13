@@ -1,13 +1,14 @@
+import { ManagerDetails } from './ManagerDetails';
 export class MemberDetails {
 
     fullName: string;
     emailId: string;
     portalId: string;
     employeeId: string;
-    experience: string;
+    experience: number;
     gender: string;
     designation: string;
-    isManager: boolean;
+    isManager: string;
     comments: string;
     hobbies: string;
     month1score: number;
@@ -18,7 +19,7 @@ export class MemberDetails {
     onTimeScore: number;
     projectDetails: string;
     teamName: string;
-    managerDetails: string;
+    managerDetails: ManagerDetails;
     rating: number;
     imageData: string;
 
@@ -26,10 +27,10 @@ export class MemberDetails {
         emailId: string,
         portalId: string,
         employeeId: string,
-        experience: string,
+        experience: number,
         gender: string,
         designation: string,
-        isManager: boolean,
+        isManager: string,
         comments: string,
         hobbies: string,
         month1score: number,
@@ -40,7 +41,7 @@ export class MemberDetails {
         onTimeScore: number,
         projectDetails: string,
         teamName: string,
-        managerDetails: string,
+        managerDetails: ManagerDetails,
         rating?: number,
         imageData?: string ) {
         this.fullName = fullName,
