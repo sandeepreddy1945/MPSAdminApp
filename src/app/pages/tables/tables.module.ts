@@ -5,6 +5,8 @@ import { ThemeModule } from '../../@theme/theme.module';
 import { TablesRoutingModule, routedComponents } from './tables-routing.module';
 import { SmartTableService } from '../../@core/data/smart-table.service';
 import { ToasterModule } from 'angular2-toaster';
+import { ManagerDetailTableComponent } from './manager-detail-table/manager-detail-table.component';
+import { TeamDetailTableComponent } from './team-detail-table/team-detail-table.component';
 
 @NgModule( {
     imports: [
@@ -15,6 +17,8 @@ import { ToasterModule } from 'angular2-toaster';
     ],
     declarations: [
         ...routedComponents,
+        ManagerDetailTableComponent,
+        TeamDetailTableComponent,
     ],
     providers: [
         SmartTableService,

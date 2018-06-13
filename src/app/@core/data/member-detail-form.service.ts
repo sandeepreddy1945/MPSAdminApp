@@ -8,6 +8,7 @@ import { Member } from '../../@model/member';
 import { environment } from '../../../environments/environment';
 import { ManagerDetails } from '../../@model/ManagerDetails';
 
+
 const headers = new HttpHeaders( { 'Content-Type': 'application/json' } );
 
 const sampleManagerDetails: ManagerDetails[] = [new ManagerDetails( '1', 'Sandeep Reddy Battula' ),
@@ -21,6 +22,10 @@ const sampleTeamNames: string[] = ['EnterpriseRx', 'PharmacyRx', 'Pharmaserv', '
 const genderAttrs: string[] = ['GENDER', 'MALE', 'FEMALE', 'OTHERS'];
 
 const checkManagerAttrs: string[] = ['IS MEMBER MANAGER', 'YES', 'NO', 'NOT SURE'];
+
+const saveMemberDetailsEndPoint: string = environment.devServerURL + '/api/memberdetai/save';
+const fecthManagerListEndPoint: string = environment.devServerURL + '/api/managerdetail/list';
+const fetchTeamNamesListEndPoint: string = environment.devServerURL + '/api/teamdetails/list';
 
 @Injectable( {
     providedIn: 'root',

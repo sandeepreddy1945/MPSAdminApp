@@ -140,8 +140,16 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'nb-tables',
         children: [
             {
-                title: 'Member Table',
+                title: 'Member Detais',
                 link: '/pages/tables/smart-table',
+            },
+            {
+                title: 'Manager Details',
+                link: '/pages/tables/manager-detail',
+            },
+            {
+                title: 'Team Name Details',
+                link: '/pages/tables/team-detail',
             },
         ],
     },
