@@ -20,12 +20,6 @@
       margin-left: 1rem;
     }
   }
- 
- .img{
- 	width: 10rem;
- 	height: 10rem;
- 	}
- 
 
   .demo-checkboxes {
     display: flex;
@@ -63,6 +57,20 @@
 
   .filled {
     color: nb-theme(color-fg);
+  }
+ 
+ .img{
+ 	width: 10rem;
+ 	height: 10rem;
+ 	}
+ 
+ .picture {
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    border-top-left-radius: nb-theme(card-border-radius);
+    border-top-right-radius: nb-theme(card-border-radius);
+    flex: 1;
   }
 
   // TODO: Replace with the card header styles mixin

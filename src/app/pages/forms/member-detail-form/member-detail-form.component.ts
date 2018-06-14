@@ -8,6 +8,7 @@ import { NbSearchService } from '@nebular/theme';
 import { Subscription, Observable } from 'rxjs';
 import { delay, withLatestFrom, tap } from 'rxjs/operators';
 import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
+import { defaultImage } from '../../editors/login-profile/DefaultImage';
 import 'style-loader!angular2-toaster/toaster.css';
 
 @Component( {
@@ -70,6 +71,9 @@ export class MemberDetailFormComponent implements OnInit, OnDestroy {
         // assign the managers drop down with the first value applicable.
         this.position = this.managerDetails[0] || new ManagerDetails( '0', 'No Managers To Select' );
 
+        // set the  frame image to default image or the image value retrieve from db
+        // TODO to make the changes to retrieve from the service call.
+        this.imageFileData = defaultImage.defaultImageData;
     }
 
     ngOnDestroy() {

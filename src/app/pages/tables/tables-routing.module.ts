@@ -32,4 +32,6 @@ export class TablesRoutingModule { }
 export const routedComponents = [
     TablesComponent,
     SmartTableComponent,
+    TeamDetailTableComponent,
+    ManagerDetailTableComponent,
 ];

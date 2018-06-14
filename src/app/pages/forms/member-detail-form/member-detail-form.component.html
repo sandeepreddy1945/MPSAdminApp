@@ -165,8 +165,13 @@
 		</div>
 		</nb-card-body> </nb-card>
 
-		<nb-card> <nb-card-body class="demo-rating">
-		<span class="rating-header">Upload Member Image</span>
+		<nb-card>
+		<nb-card-header class="demo-rating"> <span
+			class="rating-header">Upload Member Image</span> </nb-card-header> <nb-card-body
+			class="demo-rating">
+
+		<img class="img" [src]="imageFileData"  alt="Profile Picture"/>
+
 		<div>
 			<input type="file" class="btn btn-success"
 				placeholder="Browse &

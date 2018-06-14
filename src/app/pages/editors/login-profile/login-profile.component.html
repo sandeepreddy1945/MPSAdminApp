@@ -1,0 +1,60 @@
+<div class="row">
+	<div class="col-lg-12">
+
+		<nb-card> <nb-card-body class="demo-rating">
+		<span class="rating-header">Profile Settings</span> </nb-card-body> </nb-card>
+
+		<nb-card> <nb-card-header class="demo-rating">Reset
+		Password Here !! <toaster-container [toasterconfig]="config"></toaster-container>
+		</nb-card-header> <nb-card-body>
+
+		<div class="input-group mail-btn-group">
+			<span class="input-group-prepend">
+				<button class="btn btn-primary btn-icon input-group-text"
+					(click)="showPassword ? showPassword = false : showPassword = true">
+					<!-- ion-md-eye ion-ios-eye -->
+					<i class="{{showPassword ? 'fa fas fa-eye' : 'fa fas fa-eye-slash'}}"></i>
+				</button>
+			</span> <input [type]="showPassword ? 'text' : 'password'"
+				class="form-control" placeholder="New Password"
+				[(ngModel)]="mpasword"> <span class="input-group-append">
+			</span>
+		</div>
+
+		<div class="input-group mail-btn-group">
+			<span class="input-group-prepend">
+				<button class="btn btn-primary btn-icon input-group-text"
+					(click)="showConfrmPassword ? showConfrmPassword = false : showConfrmPassword = true">
+					<i class="{{showConfrmPassword ? 'fa fas fa-eye' : 'fa fas fa-eye-slash'}}"></i>
+				</button>
+			</span> <input [type]="showConfrmPassword ? 'text' : 'password'"
+				class="form-control" placeholder="Confirm Password"
+				[(ngModel)]="mconfrmpassword"> <span
+				class="input-group-append"> </span>
+		</div>
+
+
+		<div class="demo-rating">
+			<button class="btn btn-danger" (click)="resetPassword($event)">Reset
+				Password</button>
+		</div>
+		</nb-card-body> </nb-card>
+
+
+		<nb-card>
+		<nb-card-header class="demo-rating"> <span
+			class="rating-header">Upload Image</span> </nb-card-header> <nb-card-body
+			class="demo-rating">
+
+		<img class="img" [src]="selectedImageData"  alt="Profile Picture"/>
+
+		<div>
+			<input type="file" class="btn btn-success"
+				placeholder="Browse &
+				UpLoad Image" accept="image/*"
+				(change)="handleFileEvent($event)" [(ngModel)]="mimageFile" />
+		</div>
+		</nb-card-body> </nb-card>
+
+	</div>
+</div>

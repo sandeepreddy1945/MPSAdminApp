@@ -1,12 +1,11 @@
 <nb-card>
   <nb-card-header>
-    MPS Team Data 
+    MPS Team Data   <toaster-container [toasterconfig]="config"></toaster-container>
   </nb-card-header>
 
   <nb-card-body>
    <input #search class="form-control" type="text" placeholder="Search..." (keydown.enter)="onSearch(search.value)" 
   >
-   <toaster-container [toasterconfig]="config"></toaster-container>
     <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)"
     (createConfirm)="onCreateConfirm($event)" (editConfirm)="onEditConfirm($event)">
     </ng2-smart-table>

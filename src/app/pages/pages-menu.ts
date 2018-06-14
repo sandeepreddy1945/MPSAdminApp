@@ -119,6 +119,17 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 title: 'D3',
                 link: '/pages/charts/d3',
             },
+            {
+                title: 'Enterprise Rx',
+                link: '/pages/charts/enterpriserx',
+            }, {
+                title: 'Pharmacy Rx',
+                link: '/pages/charts/pharmacyrx',
+            },
+            {
+                title: 'Pharmaserv',
+                link: '/pages/charts/pharmaserv',
+            },
         ],
     },
     {
@@ -132,6 +143,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
             {
                 title: 'CKEditor',
                 link: '/pages/editors/ckeditor',
+            },
+            {
+                title: 'Profile',
+                link: '/pages/editors/profile',
             },
         ],
     },

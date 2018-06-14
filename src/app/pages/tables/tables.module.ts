@@ -17,8 +17,6 @@ import { TeamDetailTableComponent } from './team-detail-table/team-detail-table.
     ],
     declarations: [
         ...routedComponents,
-        ManagerDetailTableComponent,
-        TeamDetailTableComponent,
     ],
     providers: [
         SmartTableService,
