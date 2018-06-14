@@ -40,13 +40,15 @@ export class LoginProfileComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.selectedImageData = defaultImage.defaultImageData;
+        //  this.selectedImageData = defaultImage.defaultImageData;
         // assign the login token
         this.nbAuthService.getToken().subscribe( o => { this.loginToken = o.getValue() } );
+      //  console.log( this.loginToken );
+        this.fetchProfilePic();
     }
 
     ngOnDestroy() {
-        console.log( 'On Destroy Called' );
+     //   console.log( 'On Destroy Called' );
     }
 
     /*********************************
@@ -119,20 +121,19 @@ export class LoginProfileComponent implements OnInit {
         if ( this.mpasword && this.mconfrmpassword ) {
 
             if ( this.mpasword === this.mconfrmpassword ) {
-                if ( this.mpasword.length < 6 ) {
-                    this.showToast( 'warning', 'Password Length', 'Cannot be less than 6 digits' );
+                if ( this.mpasword.length < 5 ) {
+                    this.showToast( 'warning', 'Password Length', 'Cannot be less than 5 Characters' );
                 } else {
                     var resetPass: ResetPasswordAndImage = new ResetPasswordAndImage( this.loginToken, this.mpasword );
-                    this.loginService.resetPassword( resetPass ).pipe(
-                        delay( 4000 ), ).subscribe( o => {
-                            this.showToast( 'success', 'Password Reset !!', 'Successful' )
-                        },
+                    this.loginService.resetPassword( resetPass ).subscribe( o => {
+                        this.showToast( 'success', 'Password Reset !!', 'Successful' )
+                    },
                         err => {
                             this.onErrorToaster( err.message )
                         },
                         () => { this.router.navigate( ['/auth/login'] ) }// navigate on success call only
 
-                        );
+                    );
                 }
             } else {
                 this.showToast( 'error', 'Password Doesnot Match!!!', 'Re-Enter Passwords' );
@@ -141,13 +142,24 @@ export class LoginProfileComponent implements OnInit {
     }
 
     fetchProfilePic(): void {
-        var fetchProfilePic: ResetPasswordAndImage = new ResetPasswordAndImage( this.loginToken );
-        this.loginService.fetchProfilePic( fetchProfilePic ).subscribe( o => { console.log( o ) } );
+        var fetchProfilePicture: ResetPasswordAndImage = new ResetPasswordAndImage( this.loginToken );
+        this.loginService.fetchProfilePic( fetchProfilePicture ).subscribe( o => {
+            o.imageData != null && o.imageData != undefined && o.imageData.length > 0 ?
+                this.selectedImageData = o.imageData : defaultImage.defaultImageData
+        },
+            err => {
+                this.showToast( 'warning', 'Profile Pic Not Found', 'Assing Default Profile Pic' ),
+                    this.selectedImageData = defaultImage.defaultImageData
+            }, // on error set the default prf pic
+
+        );
     }
 
     saveProfilePicture( imgData: string ): void {
         var resetImg: ResetPasswordAndImage = new ResetPasswordAndImage( this.loginToken, '', imgData );
-        this.loginService.saveNewProfilePicture( resetImg ).subscribe( o => { console.log( o ) } );
+        this.loginService.saveNewProfilePicture( resetImg ).subscribe( o => { console.log( o ) },
+            err => { this.onErrorToaster( err.message ) },
+            () => { this.showToast( 'success', 'Profile Pic', 'Successfully Changed' ); } );
     }
 
     onErrorToaster( s: string ): void {

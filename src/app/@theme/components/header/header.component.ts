@@ -33,7 +33,7 @@ export class HeaderComponent implements OnInit {
     ngOnInit() {
         this.userService.getUsers()
             .subscribe(( users: any ) => this.user = users.nick );
-        this.userMenu = [{ title: 'Profile', link: '/' }, { title: 'Log out', link: '/auth/sign-out' }];
+        this.userMenu = [{ title: 'Profile', link: '/pages/editors/profile' }, { title: 'Log out', link: '/auth/sign-out' }];
     }
 
     toggleSidebar(): boolean {
