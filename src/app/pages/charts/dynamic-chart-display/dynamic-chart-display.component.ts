@@ -13,11 +13,11 @@ export class DynamicChartDisplayComponent implements OnInit {
     constructor( private activatedRoute: ActivatedRoute ) { }
 
     ngOnInit() {
-        // this.activatedRoute.queryParamMap.subscribe( o => { console.log( o ) } );
-        // this.activatedRoute.queryParams.subscribe( o => { console.log( o ) } );
+        //  this.activatedRoute.queryParamMap.subscribe( o => { console.log( o ) } );
         console.log( this.activatedRoute.snapshot.paramMap.get( 'name' ) );
-        this.pageName = this.activatedRoute.snapshot.paramMap.get( 'name' );
-        //  console.log( this.activatedRoute.url );
+        this.activatedRoute.queryParams.subscribe( o => { console.log( o ), this.pageName = o.teamName } );
+        // this.pageName = this.activatedRoute.snapshot.paramMap.get( 'name' );
+        // console.log( this.activatedRoute.url );
     }
 
 }

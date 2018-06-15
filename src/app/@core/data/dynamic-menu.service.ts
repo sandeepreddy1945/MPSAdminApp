@@ -6,6 +6,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { switchMap, map, catchError } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { MemberDetailFormService } from './member-detail-form.service';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 // all URL Constants
 const DASHBOARD: NbMenuItem = {
@@ -143,9 +144,14 @@ const CHARTS: NbMenuItem = {
             title: 'Pharmaserv',
             link: '/pages/charts/pharmaserv',
         },
-        {
+        /*{
             title: 'Dynamic Chart',
             link: '/pages/charts/dynamicchart/:name',
+        },*/
+        {
+            title: 'ERX Dynamic Chart',
+            link: '/pages/charts/dynamicchart/ERX',
+            queryParams: { 'teamName': 'ERX' },
         },
     ],
 };
@@ -238,7 +244,7 @@ export class DynamicMenuService {
 
 
         this.convertToTeamMenuList().forEach( m => {
-            let dynamicMenuItems: NbMenuItem = { title: m.title, link: m.link };
+            let dynamicMenuItems: NbMenuItem = { title: m.title, link: m.link, queryParams: m.queryParams };
             CHARTS.children.push( dynamicMenuItems );
         } );
         console.log( NEBULAR_ALL_MENU );
@@ -256,7 +262,8 @@ export class DynamicMenuService {
         menus.forEach( e => {
             let m: NbMenuItem = new NbMenuItem();
             m.title = e;
-            m.link = '/pages/charts/dynamicchart/'.concat( e );
+            m.link = '/pages/charts/dynamicchart/'.concat(e);
+            m.queryParams = { 'teamName': e.toString() };
             menusArray.push( m );
         } );
 
