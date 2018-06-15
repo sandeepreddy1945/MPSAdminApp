@@ -6,6 +6,7 @@ import { PagesRoutingModule } from './pages-routing.module';
 import { ThemeModule } from '../@theme/theme.module';
 import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
 import { AuthGuardService } from '../auth-guard.service';
+import { DynamicMenuService } from '../@core/data/dynamic-menu.service';
 
 const PAGES_COMPONENTS = [
     PagesComponent,
@@ -21,7 +22,7 @@ const PAGES_COMPONENTS = [
     declarations: [
         ...PAGES_COMPONENTS,
     ],
-    providers: [AuthGuardService],
+    providers: [AuthGuardService, DynamicMenuService],
 } )
 export class PagesModule {
 }

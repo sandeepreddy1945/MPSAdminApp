@@ -8,6 +8,7 @@ import { ChartjsComponent } from './chartjs/chartjs.component';
 import { EnterpriseRxComponent } from './enterprise-rx/enterprise-rx.component';
 import { PharmaServComponent } from './pharma-serv/pharma-serv.component';
 import { PharmacyRxComponent } from './pharmacy-rx/pharmacy-rx.component';
+import { DynamicChartDisplayComponent } from './dynamic-chart-display/dynamic-chart-display.component';
 
 const routes: Routes = [{
     path: '',
@@ -30,6 +31,9 @@ const routes: Routes = [{
     }, {
         path: 'pharmacyrx',
         component: PharmacyRxComponent,
+    }, {
+        path: 'dynamicchart/:name',
+        component: DynamicChartDisplayComponent,
     }],
 }];
 

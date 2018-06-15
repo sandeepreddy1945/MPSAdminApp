@@ -28,6 +28,7 @@ import { EchartsRadarComponent } from './echarts/echarts-radar.component';
 import { EnterpriseRxComponent } from './enterprise-rx/enterprise-rx.component';
 import { PharmacyRxComponent } from './pharmacy-rx/pharmacy-rx.component';
 import { PharmaServComponent } from './pharma-serv/pharma-serv.component';
+import { DynamicChartDisplayComponent } from './dynamic-chart-display/dynamic-chart-display.component';
 
 const components = [
   ChartjsBarComponent,
@@ -53,6 +54,6 @@ const components = [
 
 @NgModule({
   imports: [ThemeModule, ChartsRoutingModule, NgxEchartsModule, NgxChartsModule, ChartModule],
-  declarations: [...routedComponents, ...components, EnterpriseRxComponent, PharmacyRxComponent, PharmaServComponent],
+  declarations: [...routedComponents, ...components, EnterpriseRxComponent, PharmacyRxComponent, PharmaServComponent, DynamicChartDisplayComponent],
 })
 export class ChartsModule {}
