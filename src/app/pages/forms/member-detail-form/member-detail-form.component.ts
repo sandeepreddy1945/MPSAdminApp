@@ -10,6 +10,7 @@ import { delay, withLatestFrom, tap } from 'rxjs/operators';
 import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
 import { defaultImage } from '../../editors/login-profile/DefaultImage';
 import 'style-loader!angular2-toaster/toaster.css';
+import { FormsModule, EmailValidator, Validator } from '@angular/forms'
 
 @Component( {
     selector: 'member-detail-form',
@@ -52,7 +53,12 @@ export class MemberDetailFormComponent implements OnInit, OnDestroy {
     mteamName: string;
     mimageFile: string;
 
+    // filed validation object
+    isFormSubmitted: boolean = false;
     protected searchClick$: Subscription;
+    
+    dropDownClass: string = 'btn btn-primary';
+    dangerDropDownClass: string = 'btn btn-danger';
 
     constructor( private memberService: MemberDetailFormService, private searchService: NbSearchService,
         private toasterService: ToasterService ) {
@@ -226,8 +232,11 @@ export class MemberDetailFormComponent implements OnInit, OnDestroy {
      * @param event
      */
     sendForm( event ): void {
+        this.isFormSubmitted = true;
         if ( this.validateAllFields() ) {
             console.log( this.buildMemberDetailObject() );
+            // as form is sucessfully validated and done.
+            this.isFormSubmitted = false;
             this.showToast( 'success', 'Member Added', 'Successfully !!' );
         } else {
             console.log( 'All Fields are not yet valid' );
@@ -242,35 +251,37 @@ export class MemberDetailFormComponent implements OnInit, OnDestroy {
      * In here only image file is optional field.
      */
     validateAllFields(): boolean {
-        var isFormValid: boolean = this.mfullName ?
-            this.mrating &&
-                this.memailId &&
-                this.mportalId &&
-                this.memployeeId &&
-                this.mexperience &&
-                this.mgender &&
-                this.mdesignation &&
-                this.misManager &&
-                this.mcomments &&
-                this.mhobbies &&
-                this.mmonth1score &&
-                this.mmonth2score &&
-                this.mmonth3score &&
-                this.mvalueAddScore &&
-                this.monQualityScore &&
-                this.monTimeScore &&
-                this.mprojectDetails &&
-                this.mteamName &&
-                this.mgender !== 'GENDER' &&
-                this.misManager !== 'IS MEMBER MANAGER'
-                //  && this.mimageFile 
-                ? true : false : false;
-
+        let isFormValid: boolean =
+            this.mfullName ?
+                this.mrating &&
+                    this.memailId &&
+                    this.mportalId &&
+                    this.memployeeId &&
+                    this.mexperience &&
+                    this.mgender &&
+                    this.mdesignation &&
+                    this.misManager &&
+                    this.mcomments &&
+                    this.mhobbies &&
+                    this.mmonth1score &&
+                    this.mmonth2score &&
+                    this.mmonth3score &&
+                    this.mvalueAddScore &&
+                    this.monQualityScore &&
+                    this.monTimeScore &&
+                    this.mprojectDetails &&
+                    this.mteamName &&
+                    this.mgender !== 'GENDER' &&
+                    this.misManager !== 'IS MEMBER MANAGER'
+                    //  && this.mimageFile 
+                    ? true : false : false;
+        console.log( isFormValid );
         return isFormValid;
     }
 
     buildMemberDetailObject(): MemberDetails {
-        return new MemberDetails( this.mfullName,
+        return new MemberDetails(
+            this.mfullName,
             this.memailId,
             this.mportalId,
             this.memployeeId,

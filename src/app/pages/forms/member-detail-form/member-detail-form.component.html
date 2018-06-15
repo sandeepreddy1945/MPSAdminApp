@@ -1,15 +1,15 @@
 <div class="row">
 	<div class="col-lg-12">
-		<nb-card> <nb-card-header class="demo-rating">Member Detail
-		Form 
-		<toaster-container [toasterconfig]="config"></toaster-container>
-		  <nb-search type="rotate-layout"  tag="searchMemberTag"
-		   class="btn-primary btn-sm " placeholder="Portal Id" hint="Search by Portal Id Only"></nb-search>
-		</nb-card-header> <nb-card-body>
+		<nb-card> <nb-card-header class="demo-rating">Member
+		Detail Form <toaster-container [toasterconfig]="config"></toaster-container>
+		<nb-search type="rotate-layout" tag="searchMemberTag"
+			class="btn-primary btn-sm " placeholder="Portal Id"
+			hint="Search by Portal Id Only"></nb-search> </nb-card-header> <nb-card-body>
 
 		<div class="input-group">
 			<span class="input-group-addon success">@</span> <input type="text"
-				class="form-control" placeholder="Full Name" [(ngModel)]="mfullName" />
+				class="{{isFormSubmitted ? mfullName ? 'form-control' : 'form-control form-control-danger' : 'form-control'}}"
+				placeholder="Full Name" [(ngModel)]="mfullName" />
 		</div>
 
 		<div class="input-group mail-btn-group">
@@ -17,8 +17,10 @@
 				<button class="btn btn-primary btn-icon input-group-text">
 					<i class="ion-ios-email-outline"></i>
 				</button>
-			</span> <input type="text" class="form-control" placeholder="Email Id"
-				[(ngModel)]="memailId"> <span class="input-group-append">
+			</span> <input type="email"
+				class="{{isFormSubmitted ? memailId ? 'form-control' : 'form-control form-control-danger' : 'form-control'}}"
+				placeholder="Email Id" [(ngModel)]="memailId"> <span
+				class="input-group-append">
 				<button class="btn btn-primary input-group-text">
 					@example.com</button>
 			</span>
@@ -26,25 +28,31 @@
 
 		<div class="row full-name-inputs">
 			<div class="col-sm-6 input-group">
-				<input type="text" placeholder="Potal Id" class="form-control"
+				<input type="text" placeholder="Potal Id"
+					class="{{isFormSubmitted ? mportalId ? 'form-control' : 'form-control form-control-danger' : 'form-control'}}"
 					[(ngModel)]="mportalId" />
 			</div>
 			<div class="col-sm-6 input-group">
 				<input type="text" placeholder="Employee / SAP Id"
-					class="form-control" [(ngModel)]="memployeeId" />
+					class="{{isFormSubmitted ? memployeeId ? 'form-control' : 'form-control form-control-danger' : 'form-control'}}"
+					[(ngModel)]="memployeeId" />
 			</div>
 		</div>
 
 		<div class="row full-name-inputs">
 			<div class="col-sm-6 input-group">
 				<input type="number" placeholder="Experience In Years"
-					class="form-control" [(ngModel)]="mexperience" />
+					class="{{isFormSubmitted ? mexperience ? 'form-control' : 'form-control form-control-danger' : 'form-control'}}"
+					[(ngModel)]="mexperience" />
 			</div>
 			<div class="col-md-6  col-sm-6">
 				<div class="form-group">
 					<div class="dropdown" ngbDropdown>
-						<button class="btn btn-primary" type="button" ngbDropdownToggle >
-							{{ genderComboPick? genderComboPick : genderList[0]}}</button>
+						<button
+							[ngClass]="isFormSubmitted ? genderComboPick && genderComboPick !== genderList[0] ? 
+							  dropDownClass : dangerDropDownClass : dropDownClass"
+							type="button" ngbDropdownToggle>{{ genderComboPick?
+							genderComboPick : genderList[0]}}</button>
 						<ul ngbDropdownMenu class="dropdown-menu">
 							<li class="dropdown-item" *ngFor="let p of genderList"
 								(click)="setSelectdGender(p)">{{ p}}</li>
@@ -56,14 +64,18 @@
 
 		<div class="row full-name-inputs">
 			<div class="col-sm-6 input-group">
-				<input type="text" placeholder="Designation" class="form-control"
+				<input type="text" placeholder="Designation"
+					class="{{isFormSubmitted ? mdesignation ? 'form-control' : 'form-control form-control-danger' : 'form-control'}}"
 					[(ngModel)]="mdesignation" />
 			</div>
 			<div class="col-md-6  col-sm-6">
 				<div class="form-group">
 					<div class="dropdown" ngbDropdown>
-						<button class="btn btn-primary" type="button" ngbDropdownToggle >
-							{{ managerComboPick? managerComboPick : managerCheckList[0]}}</button>
+						<button
+							[ngClass]="isFormSubmitted ? managerComboPick && managerComboPick !== managerCheckList[0] ? 
+							  dropDownClass : dangerDropDownClass : dropDownClass"
+							type="button" ngbDropdownToggle>{{ managerComboPick?
+							managerComboPick : managerCheckList[0]}}</button>
 						<ul ngbDropdownMenu class="dropdown-menu">
 							<li class="dropdown-item" *ngFor="let p of managerCheckList"
 								(click)="setSelectedManagerPick(p)">{{ p}}</li>
@@ -76,14 +88,13 @@
 		<div class="input-group">
 			<textarea rows="5"
 				placeholder="About The Member, Comments / Appreciations If Any Included"
-				class="form-control" [(ngModel)]="mcomments"></textarea>
+				class="{{isFormSubmitted ? mcomments ? 'form-control' : 'form-control form-control-danger' : 'form-control'}}"
+				[(ngModel)]="mcomments"></textarea>
 		</div>
-		<!-- <div class="input-group input-group-sm">
-			<input type="text" placeholder="Small Input" class="form-control" />
-		</div> -->
 		<div class="input-group input-group-lg">
 			<input type="text" placeholder="Member Interest's & Hobbies"
-				class="form-control" [(ngModel)]="mhobbies" />
+				class="{{isFormSubmitted ? mhobbies ? 'form-control' : 'form-control form-control-danger' : 'form-control'}}"
+				[(ngModel)]="mhobbies" />
 		</div>
 		</nb-card-body> </nb-card>
 
@@ -91,15 +102,18 @@
 
 		<div class="row full-name-inputs">
 			<div class="col-sm-4 input-group">
-				<input type="text" placeholder="Month 1 Score" class="form-control"
+				<input type="text" placeholder="Month 1 Score"
+					class="{{isFormSubmitted ? mmonth1score ? 'form-control' : 'form-control form-control-danger' : 'form-control'}}"
 					[(ngModel)]="mmonth1score" />
 			</div>
 			<div class="col-sm-4 input-group">
-				<input type="text" placeholder="Month 2 Score" class="form-control"
+				<input type="text" placeholder="Month 2 Score"
+					class="{{isFormSubmitted ? mmonth2score ? 'form-control' : 'form-control form-control-danger' : 'form-control'}}"
 					[(ngModel)]="mmonth2score" />
 			</div>
 			<div class="col-sm-4 input-group">
-				<input type="text" placeholder="Month 3 Score" class="form-control"
+				<input type="text" placeholder="Month 3 Score"
+					class="{{isFormSubmitted ? mmonth3score ? 'form-control' : 'form-control form-control-danger' : 'form-control'}}"
 					[(ngModel)]="mmonth3score" />
 			</div>
 		</div>
@@ -107,14 +121,17 @@
 		<div class="row full-name-inputs">
 			<div class="col-sm-4 input-group">
 				<input type="text" placeholder="Value Add Score"
-					class="form-control" [(ngModel)]="mvalueAddScore" />
+					class="{{isFormSubmitted ? mvalueAddScore ? 'form-control' : 'form-control form-control-danger' : 'form-control'}}"
+					[(ngModel)]="mvalueAddScore" />
 			</div>
 			<div class="col-sm-4 input-group">
 				<input type="text" placeholder="On Quality Score"
-					class="form-control" [(ngModel)]="monQualityScore" />
+					class="{{isFormSubmitted ? monQualityScore ? 'form-control' : 'form-control form-control-danger' : 'form-control'}}"
+					[(ngModel)]="monQualityScore" />
 			</div>
 			<div class="col-sm-4 input-group">
-				<input type="text" placeholder="On Time Score" class="form-control"
+				<input type="text" placeholder="On Time Score"
+					class="{{isFormSubmitted ? monTimeScore ? 'form-control' : 'form-control form-control-danger' : 'form-control'}}"
 					[(ngModel)]="monTimeScore" />
 			</div>
 		</div>
@@ -126,10 +143,12 @@
 		<div class="row full-name-inputs">
 			<div class="col-sm-6 input-group">
 				<input type="text" placeholder="Project Details"
-					class="form-control" [(ngModel)]="mprojectDetails" />
+					class="{{isFormSubmitted ? mprojectDetails ? 'form-control' : 'form-control form-control-danger' : 'form-control'}}"
+					[(ngModel)]="mprojectDetails" />
 			</div>
 			<div class="col-sm-6 input-group">
-				<input type="text" placeholder="Team Name" class="form-control"
+				<input type="text" placeholder="Team Name"
+					class="{{isFormSubmitted ? mteamName ? 'form-control' : 'form-control form-control-danger' : 'form-control'}}"
 					[(ngModel)]="mteamName" />
 			</div>
 		</div>
@@ -140,7 +159,7 @@
 					<label class="form-control-label">Select Manager From The
 						Drop Down List</label>
 					<div class="dropdown" ngbDropdown>
-						<button class="btn btn-primary" type="button" ngbDropdownToggle >
+						<button class="btn btn-primary" type="button" ngbDropdownToggle>
 							{{ position? position.name : managerDetails[0].name}}</button>
 						<ul ngbDropdownMenu class="dropdown-menu">
 							<li class="dropdown-item" *ngFor="let p of managerDetails"
@@ -165,12 +184,10 @@
 		</div>
 		</nb-card-body> </nb-card>
 
-		<nb-card>
-		<nb-card-header class="demo-rating"> <span
-			class="rating-header">Upload Member Image</span> </nb-card-header> <nb-card-body
-			class="demo-rating">
-
-		<img class="img" [src]="imageFileData"  alt="Profile Picture"/>
+		<nb-card> <nb-card-header class="demo-rating">
+		<span class="rating-header">Upload Member Image</span> </nb-card-header> <nb-card-body
+			class="demo-rating"> <img class="img"
+			[src]="imageFileData" alt="Profile Picture" />
 
 		<div>
 			<input type="file" class="btn btn-success"

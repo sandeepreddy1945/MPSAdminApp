@@ -142,7 +142,7 @@ export class LoginProfileComponent implements OnInit {
     }
 
     fetchProfilePic(): void {
-        var fetchProfilePicture: ResetPasswordAndImage = new ResetPasswordAndImage( this.loginToken );
+        let fetchProfilePicture: ResetPasswordAndImage = new ResetPasswordAndImage( this.loginToken );
         this.loginService.fetchProfilePic( fetchProfilePicture ).subscribe( o => {
             o.imageData != null && o.imageData != undefined && o.imageData.length > 0 ?
                 this.selectedImageData = o.imageData : defaultImage.defaultImageData
