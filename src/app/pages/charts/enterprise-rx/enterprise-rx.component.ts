@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
-
-
-
+import { CurrentUser } from '../../../@model/currentUser';
+import { defaultImage } from '../../editors/login-profile/DefaultImage';
 
 @Component( {
     selector: 'enterprise-rx',
@@ -11,8 +9,9 @@ import { Component, OnInit } from '@angular/core';
 } )
 export class EnterpriseRxComponent implements OnInit {
 
+    teamMembersP: CurrentUser[] = [{ name: 'Sandeep', picture: defaultImage.defaultImageData, title: 'Lead' }] ;
+    teamMs: string = JSON.stringify(this.teamMembersP);
     constructor() { }
-
     ngOnInit() {
     }
 

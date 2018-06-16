@@ -30,6 +30,9 @@ import { PharmacyRxComponent } from './pharmacy-rx/pharmacy-rx.component';
 import { PharmaServComponent } from './pharma-serv/pharma-serv.component';
 import { DynamicChartDisplayComponent } from './dynamic-chart-display/dynamic-chart-display.component';
 import { OrgChartComponent } from './enterprise-rx/org-chart.component';
+import { StatusCardComponent } from './status-card/status-card.component';
+import { TeamDetailComponent } from './enterprise-rx/team-detail.component';
+
 
 
 const components = [
@@ -52,6 +55,8 @@ const components = [
     EchartsAreaStackComponent,
     EchartsBarAnimationComponent,
     EchartsRadarComponent,
+    StatusCardComponent,
+    TeamDetailComponent,
 ];
 
 @NgModule( {

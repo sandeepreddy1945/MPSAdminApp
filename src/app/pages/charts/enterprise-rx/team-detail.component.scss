@@ -1,5 +1,6 @@
 @import '../../../@theme/styles/themes';
 @import '~@nebular/theme/styles/global/bootstrap/hero-buttons';
+@import '~bootstrap/scss/mixins/breakpoints';
 
 @include nb-install-component() {
   nb-tabset {
@@ -13,11 +14,6 @@
     overflow-y: auto;
     padding: 0;
   }
- 
- nb-card {
- 	height: 3.75rem;
- 	width: 15rem;
- 	}
 
   .contact {
     display: flex;
@@ -52,7 +48,7 @@
       font-family: nb-theme(font-secondary);
       font-weight: nb-theme(font-weight-bold);
       color: nb-theme(color-fg-heading);
-      font-size: 1rem;
+      font-size: 1.25rem;
 
       @include nb-for-theme(cosmic) {
         font-weight: nb-theme(font-weight-bolder);
@@ -65,4 +61,22 @@
       text-transform: uppercase;
     }
   }
+ 
+ .displayImage{
+ 	width: 10rem;
+ 	height: 10rem;
+ 	}
+ 
+ .topPadding{
+ 	margin: 1rem;
+ 	}
+ 
+ .labelTxt {
+ 	  font-family: nb-theme(font-secondary);
+      font-weight: nb-theme(font-weight-bold);
+      color: nb-theme(color-fg-heading);
+      font-size: 1.25rem;
+      padding:0rem 0rem 0rem 1rem;
+      margin: 0.75rem;
+ 	}
 }

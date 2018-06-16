@@ -9,6 +9,7 @@ import 'style-loader!angular2-toaster/toaster.css';
 import { NbAuthSimpleToken, NbAuthService } from '@nebular/auth';
 
 import { Member } from '../../../@model/member';
+import { TeamDetails } from '../../../@model/teamDetails';
 
 
 @Component( {
@@ -92,22 +93,6 @@ export class TeamDetailTableComponent implements OnInit {
     isDuplicatesPrevented = false;
     isCloseButton = true;
 
-    types: string[] = ['default', 'info', 'success', 'warning', 'error'];
-    animations: string[] = ['fade', 'flyLeft', 'flyRight', 'slideDown', 'slideUp'];
-    positions: string[] = ['toast-top-full-width', 'toast-bottom-full-width', 'toast-top-left', 'toast-top-center',
-        'toast-top-right', 'toast-bottom-right', 'toast-bottom-center', 'toast-bottom-left', 'toast-center'];
-
-    quotes = [
-        { title: null, body: 'We rock at <i>Angular</i>' },
-        { title: null, body: 'Titles are not always needed' },
-        { title: null, body: 'Toastr rock!' },
-        { title: 'What about nice html?', body: '<b>Sure you <em>can!</em></b>' },
-    ];
-
-    makeToast() {
-        this.showToast( this.type, this.title, this.content );
-    }
-
     /**
      * Fetches all the table data and adds it to the table datasource .
      * Called in init method has the advantage that this will instantiate the source with the data source as well.
@@ -120,14 +105,6 @@ export class TeamDetailTableComponent implements OnInit {
             () => { this.showToast( 'success', 'Member Table', 'Successfully Loaded !!' ); } );
     }
 
-    openRandomToast() {
-        const typeIndex = Math.floor( Math.random() * this.types.length );
-        const quoteIndex = Math.floor( Math.random() * this.quotes.length );
-        const type = this.types[typeIndex];
-        const quote = this.quotes[quoteIndex];
-
-        this.showToast( type, quote.title, quote.body );
-    }
 
     private showToast( type: string, title: string, body: string ) {
         this.config = new ToasterConfig( {

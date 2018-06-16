@@ -2,6 +2,9 @@ export class ManagerDetails {
     portalId: string;
     name: string;
     teamName: string;
+    designation?: string;
+    experience?: number;
+    email?: string;
     /**
      * Manager Detail Constructor with team name as optional.
      * @param portalId
