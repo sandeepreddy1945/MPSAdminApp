@@ -29,31 +29,34 @@ import { EnterpriseRxComponent } from './enterprise-rx/enterprise-rx.component';
 import { PharmacyRxComponent } from './pharmacy-rx/pharmacy-rx.component';
 import { PharmaServComponent } from './pharma-serv/pharma-serv.component';
 import { DynamicChartDisplayComponent } from './dynamic-chart-display/dynamic-chart-display.component';
+import { OrgChartComponent } from './enterprise-rx/org-chart.component';
+
 
 const components = [
-  ChartjsBarComponent,
-  ChartjsLineComponent,
-  ChartjsPieComponent,
-  ChartjsMultipleXaxisComponent,
-  ChartjsBarHorizontalComponent,
-  ChartjsRadarComponent,
-  D3BarComponent,
-  D3LineComponent,
-  D3PieComponent,
-  D3AreaStackComponent,
-  D3PolarComponent,
-  D3AdvancedPieComponent,
-  EchartsLineComponent,
-  EchartsPieComponent,
-  EchartsBarComponent,
-  EchartsMultipleXaxisComponent,
-  EchartsAreaStackComponent,
-  EchartsBarAnimationComponent,
-  EchartsRadarComponent,
+    ChartjsBarComponent,
+    ChartjsLineComponent,
+    ChartjsPieComponent,
+    ChartjsMultipleXaxisComponent,
+    ChartjsBarHorizontalComponent,
+    ChartjsRadarComponent,
+    D3BarComponent,
+    D3LineComponent,
+    D3PieComponent,
+    D3AreaStackComponent,
+    D3PolarComponent,
+    D3AdvancedPieComponent,
+    EchartsLineComponent,
+    EchartsPieComponent,
+    EchartsBarComponent,
+    EchartsMultipleXaxisComponent,
+    EchartsAreaStackComponent,
+    EchartsBarAnimationComponent,
+    EchartsRadarComponent,
 ];
 
-@NgModule({
-  imports: [ThemeModule, ChartsRoutingModule, NgxEchartsModule, NgxChartsModule, ChartModule],
-  declarations: [...routedComponents, ...components, EnterpriseRxComponent, PharmacyRxComponent, PharmaServComponent, DynamicChartDisplayComponent],
-})
-export class ChartsModule {}
+@NgModule( {
+    imports: [ThemeModule, ChartsRoutingModule, NgxEchartsModule, NgxChartsModule, ChartModule],
+    declarations: [...routedComponents, ...components, EnterpriseRxComponent, PharmacyRxComponent,
+        PharmaServComponent, DynamicChartDisplayComponent, OrgChartComponent],
+} )
+export class ChartsModule { }
