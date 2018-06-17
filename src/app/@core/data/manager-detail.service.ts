@@ -9,9 +9,11 @@ import { ManagerDetails } from '../../@model/ManagerDetails';
 
 const headers = new HttpHeaders( { 'Content-Type': 'application/json' } );
 
-const fetchAllManagers: string = environment.devServerURL + '/team/list';
-const addNewManager: string = environment.devServerURL + 'team/addTeam';
-const deleteManager: string = environment.devServerURL + 'team/deleteTeam';
+const fetchAllManagers: string = environment.devServerURL + '/manager/list';
+const addNewManager: string = environment.devServerURL + '/manager/addManager';
+const deleteManager: string = environment.devServerURL + '/manager/deleteManager';
+const deleteManagerByBoundary: string = environment.devServerURL + '/manager/delete/manager'
+const editManagerUrl: string = environment.devServerURL + '/manager/editManager';
 
 @Injectable( {
     providedIn: 'root',
@@ -41,6 +43,14 @@ export class ManagerDetailService {
      */
     deleteManager( m: ManagerDetails ): Observable<ManagerDetails> {
         return this.httpClient.delete<ManagerDetails>( deleteManager, { headers: headers, params: { 'portalId': m.portalId } } );
+    }
+
+    deleteManagerByBoundary( m: ManagerDetails ): Observable<ManagerDetails> {
+        return this.httpClient.post<ManagerDetails>( deleteManagerByBoundary, JSON.stringify( m ), { headers: headers } );
+    }
+    
+    updateManagerDetail(m: string[]): Observable<ManagerDetails> {
+        return this.httpClient.post<ManagerDetails>( editManagerUrl, JSON.stringify( m ), { headers: headers } );
     }
 
 }

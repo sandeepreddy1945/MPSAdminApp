@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
 
-import { SmartTableService } from '../../../@core/data/smart-table.service';
+import { TeamDetailsService } from '../../../@core/data/team-details.service';
 import 'style-loader!angular2-toaster/toaster.css';
 
 import { NbAuthSimpleToken, NbAuthService } from '@nebular/auth';
@@ -37,29 +37,19 @@ export class TeamDetailTableComponent implements OnInit {
             confirmDelete: true,
         },
         columns: {
-            portalId: {
-                title: 'Portal ID',
+            teamName: {
+                title: 'Team Name',
                 type: 'string',
                 filter: false,
             },
-            fullName: {
-                title: 'Full Name',
+            projectName: {
+                title: 'Project Name',
                 type: 'string',
                 filter: false,
             },
-            email: {
-                title: 'E-mail',
+            managerPortalId: {
+                title: 'Managers Portal Id',
                 type: 'string',
-                filter: false,
-            },
-            designation: {
-                title: 'Designation',
-                type: 'string',
-                filter: false,
-            },
-            experience: {
-                title: 'Experience',
-                type: 'number',
                 filter: false,
             },
         },
@@ -67,8 +57,8 @@ export class TeamDetailTableComponent implements OnInit {
 
     source: LocalDataSource;
 
-    constructor( private service: SmartTableService, private toasterService: ToasterService,
-        private authService: NbAuthService ) {
+    constructor( private toasterService: ToasterService,
+        private authService: NbAuthService, private teamDetailService: TeamDetailsService ) {
 
     }
 
@@ -98,11 +88,13 @@ export class TeamDetailTableComponent implements OnInit {
      * Called in init method has the advantage that this will instantiate the source with the data source as well.
      */
     getAllMembers(): void {
-        this.service.reteriveAllMembers().subscribe( o => { this.source = new LocalDataSource( o ) }
-            , err => {
-                this.onErrorToaster( err.message )
+
+        this.teamDetailService.fetchAllTeams().subscribe( o => { this.source = new LocalDataSource( o ) },
+            err => {
+                this.onErrorToaster( err.message );
+                console.log( err.error );
             },
-            () => { this.showToast( 'success', 'Member Table', 'Successfully Loaded !!' ); } );
+            () => { this.showToast( 'success', 'Team Names', 'Successfully Loaded !!' ) } );
     }
 
 
@@ -133,15 +125,19 @@ export class TeamDetailTableComponent implements OnInit {
 
     onDeleteConfirm( event ): void {
         if ( window.confirm( 'Are you sure you want to delete?' ) ) {
-            var data: any = event.data;
-            var member: Member = new Member( data.portalId, data.fullName, data.email,
-                data.designation, data.experience );
-            this.service.deleteMember( member ).subscribe( o => {
-                this.showToast( 'success', 'Member with Portal Id: ' + member.portalId, 'Successfully Deleted !!' );
-            }, err => {
-                this.onErrorToaster( err.message )
-            } );
-            event.confirm.resolve();
+            let data: any = event.data;
+            let tm = new TeamDetails();
+            tm.teamName = data.teamName;
+            tm.projectName = data.projectName;
+            tm.managerPortalId = data.managerPortalId;
+
+            this.teamDetailService.deleteTeam( tm ).subscribe( o => {
+                this.showToast( 'success', 'Team : ' + tm.teamName, 'Successfully Deeted' );
+
+            },
+                err => { this.onErrorToaster( err.message ); },
+                () => { event.confirm.resolve(); } );
+
         } else {
             console.log( event.data );
             event.confirm.reject();
@@ -155,24 +151,30 @@ export class TeamDetailTableComponent implements OnInit {
      */
     onCreateConfirm( event ): void {
         var data: any = event.newData;
-        var member: Member = new Member( data.portalId, data.fullName, data.email,
-            data.designation, data.experience );
+        let tm = new TeamDetails();
+        tm.teamName = data.teamName;
+        tm.projectName = data.projectName;
+        tm.managerPortalId = data.managerPortalId;
 
-        var memberArray: Member[] = event.source.data;
-        var identifiedMember = memberArray.find(( m: Member ) => parseInt( m.portalId.toString() ) === parseInt( member.portalId.toString() ) );
+        var teamArray: TeamDetails[] = event.source.data;
+        var identifiedMember = teamArray.find(( m: TeamDetails ) => m.teamName.toLowerCase() == tm.teamName.toLowerCase() );
         var isMemberExists: boolean = identifiedMember ? true : false;
         if ( isMemberExists ) {
             // if member exists then show a message indicationg the same
-            this.showToast( 'info', 'Member with Portal Id: ' + member.portalId, 'Already Exists !!' );
+            this.showToast( 'info', 'Team with Name: ' + tm.teamName, 'Already Exists !!' );
             event.confirm.reject();
-        } else if ( !this.validateMemberJson( member ) ) {
+        } else if ( !this.validateMemberJson( tm ) ) {
             this.showToast( 'error', 'Some Fields are empty', 'Fill in All Fields' );
             event.confirm.reject();
         }
         else {
+            let tm = new TeamDetails();
+            tm.teamName = data.teamName;
+            tm.projectName = data.projectName;
+            tm.managerPortalId = data.managerPortalId;
             // if member added show success message   
-            this.service.saveNewEntry( member ).subscribe( o => {
-                this.showToast( 'success', 'Member with Portal Id: ' + member.portalId, 'Successfully Added !!' );
+            this.teamDetailService.addNewTeam( tm ).subscribe( o => {
+                this.showToast( 'success', 'Team Name: ' + tm.teamName, 'Successfully Added !!' );
             }, err => {
                 this.onErrorToaster( err.message )
             } );
@@ -181,8 +183,8 @@ export class TeamDetailTableComponent implements OnInit {
 
     }
 
-    validateMemberJson( m: Member ): boolean {
-        var isValid: boolean = m ? m.portalId && m.designation && m.email && m.experience && m.fullName ? true : false : false;
+    validateMemberJson( m: TeamDetails ): boolean {
+        var isValid: boolean = m ? m.managerPortalId && m.projectName && m.teamName ? true : false : false;
         return isValid;
     }
 
@@ -191,26 +193,24 @@ export class TeamDetailTableComponent implements OnInit {
      * @param event
      */
     onEditConfirm( event ): void {
-        var oldMember: Member = event.data;
-        var newMember: Member = event.newData;
+        var oldTeamDetails: TeamDetails = event.data;
+        var newTeamDetails: TeamDetails = event.newData;
 
-        if ( oldMember == newMember ) {
+        if ( oldTeamDetails == newTeamDetails ) {
             this.showToast( 'info', 'No Data Changed', '' );
             event.confirm.reject();
-        } else if ( !this.validateMemberJson( newMember ) ) {
+        } else if ( !this.validateMemberJson( newTeamDetails ) ) {
             this.showToast( 'error', 'Some Fields are empty', 'Fill in All Fields' );
             event.confirm.reject();
         } else {
-            var memberArray: string[] = [JSON.stringify( oldMember ), JSON.stringify( newMember )];
-            this.service.editOldEntry( memberArray ).subscribe( o => {
-                this.showToast( 'success', 'Member with Portal Id: ' + newMember.portalId, 'Successfully Edited !!' );
+            var memberArray: string[] = [JSON.stringify( oldTeamDetails ), JSON.stringify( newTeamDetails )];
+            this.teamDetailService.editTeamDetails( memberArray ).subscribe( o => {
+                this.showToast( 'success', 'Team Details: ' + newTeamDetails.teamName, 'Successfully Edited !!' );
             }, err => {
                 this.onErrorToaster( err.message )
             } );
             event.confirm.resolve();
         }
-
-        event.confirm.resolve();
     }
 
     onErrorToaster( s: string ): void {
@@ -222,23 +222,15 @@ export class TeamDetailTableComponent implements OnInit {
         this.source.setFilter( [
             // fields we want to include in the search
             {
-                field: 'portalId',
+                field: 'teamName',
                 search: query,
             },
             {
-                field: 'fullName',
+                field: 'projectName',
                 search: query,
             },
             {
-                field: 'email',
-                search: query,
-            },
-            {
-                field: 'designation',
-                search: query,
-            },
-            {
-                field: 'experience',
+                field: 'managerPortalId',
                 search: query,
             },
         ], false );

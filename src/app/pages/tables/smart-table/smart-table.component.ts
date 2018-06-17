@@ -196,10 +196,11 @@ export class SmartTableComponent implements OnInit {
             // if member added show success message   
             this.service.saveNewEntry( member ).subscribe( o => {
                 this.showToast( 'success', 'Member with Portal Id: ' + member.portalId, 'Successfully Added !!' );
+                event.confirm.resolve();
             }, err => {
                 this.onErrorToaster( err.message )
             } );
-            event.confirm.resolve();
+
         }
 
     }
@@ -241,32 +242,32 @@ export class SmartTableComponent implements OnInit {
     }
 
     onSearch( query: string = '' ) {
-        
-            this.source.setFilter( [
-                // fields we want to include in the search
-                {
-                    field: 'portalId',
-                    search: query,
-                },
-                {
-                    field: 'fullName',
-                    search: query,
-                },
-                {
-                    field: 'email',
-                    search: query,
-                },
-                {
-                    field: 'designation',
-                    search: query,
-                },
-                {
-                    field: 'experience',
-                    search: query,
-                },
-            ], false );
-            // second parameter specifying whether to perform 'AND' or 'OR' search
-            // (meaning all columns should contain search query or at least one)
-            // 'AND' by default, so changing to 'OR' by setting false here
-        }
+
+        this.source.setFilter( [
+            // fields we want to include in the search
+            {
+                field: 'portalId',
+                search: query,
+            },
+            {
+                field: 'fullName',
+                search: query,
+            },
+            {
+                field: 'email',
+                search: query,
+            },
+            {
+                field: 'designation',
+                search: query,
+            },
+            {
+                field: 'experience',
+                search: query,
+            },
+        ], false );
+        // second parameter specifying whether to perform 'AND' or 'OR' search
+        // (meaning all columns should contain search query or at least one)
+        // 'AND' by default, so changing to 'OR' by setting false here
+    }
 }

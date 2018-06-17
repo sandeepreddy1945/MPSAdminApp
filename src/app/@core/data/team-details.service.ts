@@ -9,8 +9,10 @@ import { environment } from '../../../environments/environment';
 
 const headers = new HttpHeaders( { 'Content-Type': 'application/json' } );
 const fetchAllTeams: string = environment.devServerURL + '/team/list';
-const addNewTeam: string = environment.devServerURL + 'team/addTeam';
-const deleteTeam: string = environment.devServerURL + 'team/deleteTeam';
+const addNewTeam: string = environment.devServerURL + '/team/addTeam';
+const deleteTeam: string = environment.devServerURL + '/team/deleteTeam';
+const deleteTeamByBoundary: string = environment.devServerURL + '/team/delete/deleteTeam';
+const editTeamDetails: string = environment.devServerURL + '/team/update';
 
 @Injectable( {
     providedIn: 'root',
@@ -40,5 +42,13 @@ export class TeamDetailsService {
      */
     deleteTeam( m: TeamDetails ): Observable<TeamDetails> {
         return this.httpClient.delete<TeamDetails>( deleteTeam, { headers: headers, params: { 'teamName': m.teamName } } );
+    }
+
+    deleteTeamByBoundary( m: TeamDetails ): Observable<TeamDetails> {
+        return this.httpClient.post<TeamDetails>( deleteTeamByBoundary, JSON.stringify( m ), { headers: headers } );
+    }
+
+    editTeamDetails( m: string[] ): Observable<TeamDetails> {
+        return this.httpClient.post<TeamDetails>( editTeamDetails, JSON.stringify( m ), { headers: headers } );
     }
 }
