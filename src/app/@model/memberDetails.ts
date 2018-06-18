@@ -1,8 +1,9 @@
 import { ManagerDetails } from './ManagerDetails';
+import { TeamDetails } from './teamDetails';
 export class MemberDetails {
 
     fullName: string;
-    emailId: string;
+    email: string;
     portalId: string;
     employeeId: string;
     experience: number;
@@ -18,34 +19,34 @@ export class MemberDetails {
     onQualityScore: number;
     onTimeScore: number;
     projectDetails: string;
-    teamName: string;
+    teamDetails: TeamDetails;
     managerDetails: ManagerDetails;
     rating: number;
     imageData: string;
 
     constructor( fullName: string,
-        emailId: string,
-        portalId: string,
-        employeeId: string,
-        experience: number,
-        gender: string,
-        designation: string,
-        isManager: string,
-        comments: string,
-        hobbies: string,
-        month1score: number,
-        month2score: number,
-        month3score: number,
-        valueAddScore: number,
-        onQualityScore: number,
-        onTimeScore: number,
-        projectDetails: string,
-        teamName: string,
-        managerDetails: ManagerDetails,
+        emailId?: string,
+        portalId?: string,
+        employeeId?: string,
+        experience?: number,
+        gender?: string,
+        designation?: string,
+        isManager?: string,
+        comments?: string,
+        hobbies?: string,
+        month1score?: number,
+        month2score?: number,
+        month3score?: number,
+        valueAddScore?: number,
+        onQualityScore?: number,
+        onTimeScore?: number,
+        projectDetails?: string,
+        teamDetails?: TeamDetails,
+        managerDetails?: ManagerDetails,
         rating?: number,
         imageData?: string ) {
         this.fullName = fullName,
-            this.emailId = emailId,
+            this.email = emailId,
             this.portalId = portalId,
             this.employeeId = employeeId,
             this.experience = experience,
@@ -61,7 +62,7 @@ export class MemberDetails {
             this.onQualityScore = onQualityScore,
             this.onTimeScore = onTimeScore,
             this.projectDetails = projectDetails,
-            this.teamName = teamName,
+            this.teamDetails = teamDetails,
             this.managerDetails = managerDetails,
             this.rating = rating,
             this.imageData = imageData

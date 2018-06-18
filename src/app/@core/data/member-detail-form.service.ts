@@ -4,9 +4,12 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { ActivatedRoute } from '@angular/router';
 import { of as observableOf, Observable } from 'rxjs';
 import { switchMap, map, catchError } from 'rxjs/operators';
-import { Member } from '../../@model/member';
+import { MemberDetails } from '../../@model/memberDetails';
 import { environment } from '../../../environments/environment';
 import { ManagerDetails } from '../../@model/ManagerDetails';
+import { TeamDetails } from '../../@model/teamDetails';
+import { ManagerDetailService } from './manager-detail.service';
+import { TeamDetailsService } from './team-details.service';
 
 
 const headers = new HttpHeaders( { 'Content-Type': 'application/json' } );
@@ -23,9 +26,9 @@ const genderAttrs: string[] = ['GENDER', 'MALE', 'FEMALE', 'OTHERS'];
 
 const checkManagerAttrs: string[] = ['IS MEMBER MANAGER', 'YES', 'NO', 'NOT SURE'];
 
-const saveMemberDetailsEndPoint: string = environment.devServerURL + '/api/memberdetai/save';
-const fecthManagerListEndPoint: string = environment.devServerURL + '/api/managerdetail/list';
-const fetchTeamNamesListEndPoint: string = environment.devServerURL + '/api/teamdetails/list';
+const saveMemberDetailsEndPoint: string = environment.devServerURL + '/api/memberdetail/save';
+const fetchMemberByPortalEndPoint: string = environment.devServerURL + '/api/memberdetail/fetch';
+
 
 @Injectable( {
     providedIn: 'root',
@@ -33,15 +36,16 @@ const fetchTeamNamesListEndPoint: string = environment.devServerURL + '/api/team
 } )
 export class MemberDetailFormService {
 
-    constructor() { }
+    constructor( private managerService: ManagerDetailService, private teamService: TeamDetailsService,
+        private httpClient: HttpClient ) { }
 
     fecthManagerDetails(): Observable<ManagerDetails[]> {
         // TODO currently sample values are present will later be replaced
-        return observableOf( sampleManagerDetails );
+        return this.managerService.fetchAllManagers();
     }
 
-    fetchTeamDetais(): Observable<string[]> {
-        return observableOf( sampleTeamNames );
+    fetchTeamDetais(): Observable<TeamDetails[]> {
+        return this.teamService.fetchAllTeams();
     }
 
     fetchGenderList(): Observable<string[]> {
@@ -51,4 +55,21 @@ export class MemberDetailFormService {
     fetchCheckManagerList(): Observable<string[]> {
         return observableOf( checkManagerAttrs );
     }
+
+    /**
+     * Retrieves the Member Information using portal Id;
+     * @param m
+     */
+    fetchMemberByPortalId( m: string ): Observable<MemberDetails> {
+        return this.httpClient.get<MemberDetails>( fetchMemberByPortalEndPoint, { headers: headers, params: { 'portalId': m } } );
+    }
+
+    /**
+     * Saves the Member Details Specified. The Same can be used for update as well in case required.
+     * @param m
+     */
+    saveMemberDetails( m: MemberDetails ): Observable<MemberDetails> {
+        return this.httpClient.post<MemberDetails>( saveMemberDetailsEndPoint, JSON.stringify( m ), { headers: headers } );
+    }
+
 }

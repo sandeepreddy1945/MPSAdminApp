@@ -146,11 +146,27 @@
 					class="{{isFormSubmitted ? mprojectDetails ? 'form-control' : 'form-control form-control-danger' : 'form-control'}}"
 					[(ngModel)]="mprojectDetails" />
 			</div>
-			<div class="col-sm-6 input-group">
+
+			<div class="col-md-6  col-sm-6">
+				<div class="form-group">
+					<div class="dropdown" ngbDropdown>
+						<button
+							[ngClass]="dropDownClass"
+							type="button" ngbDropdownToggle>{{ teamComboPick?
+							teamComboPick.teamName : teamList[0].teamName}}</button>
+						<ul ngbDropdownMenu class="dropdown-menu">
+							<li class="dropdown-item" *ngFor="let p of teamList"
+								(click)="setSelectedTeam(p)">{{ p.teamName}}</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<!-- <div class="col-sm-6 input-group">
 				<input type="text" placeholder="Team Name"
 					class="{{isFormSubmitted ? mteamName ? 'form-control' : 'form-control form-control-danger' : 'form-control'}}"
 					[(ngModel)]="mteamName" />
-			</div>
+			</div> -->
 		</div>
 
 		<div class="row full-name-inputs">
@@ -162,7 +178,7 @@
 						<button class="btn btn-primary" type="button" ngbDropdownToggle>
 							{{ position? position.name : managerDetails[0].name}}</button>
 						<ul ngbDropdownMenu class="dropdown-menu">
-							<li class="dropdown-item" *ngFor="let p of managerDetails"
+							<li class="dropdown-item" *ngFor="let p of managerAsync | async"
 								(click)="setSelectedManager(p)">{{ p.name }}</li>
 						</ul>
 					</div>

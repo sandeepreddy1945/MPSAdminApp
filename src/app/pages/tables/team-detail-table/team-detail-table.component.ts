@@ -7,6 +7,8 @@ import { TeamDetailsService } from '../../../@core/data/team-details.service';
 import 'style-loader!angular2-toaster/toaster.css';
 
 import { NbAuthSimpleToken, NbAuthService } from '@nebular/auth';
+import { ManagerDetailService } from '../../../@core/data/manager-detail.service';
+import { ManagerDetails } from '../../../@model/ManagerDetails';
 
 import { Member } from '../../../@model/member';
 import { TeamDetails } from '../../../@model/teamDetails';
@@ -56,15 +58,23 @@ export class TeamDetailTableComponent implements OnInit {
     };
 
     source: LocalDataSource;
+    managerList: ManagerDetails[];
 
     constructor( private toasterService: ToasterService,
-        private authService: NbAuthService, private teamDetailService: TeamDetailsService ) {
+        private authService: NbAuthService, private teamDetailService: TeamDetailsService,
+        private managerService: ManagerDetailService ) {
 
     }
 
     ngOnInit() {
         this.getAllMembers();
         console.log( this.authService.getToken() );
+        // fetch all the managers for validation purpose.
+        this.managerService.fetchAllManagers().subscribe( o => { this.managerList = o; console.log( o ) },
+            err => {
+                this.onErrorToaster( err.message );
+                console.log( err.error );
+            } );
     }
 
 
@@ -166,6 +176,9 @@ export class TeamDetailTableComponent implements OnInit {
         } else if ( !this.validateMemberJson( tm ) ) {
             this.showToast( 'error', 'Some Fields are empty', 'Fill in All Fields' );
             event.confirm.reject();
+        } else if ( !this.checkIfManagerWithPortalIdExists( tm.managerPortalId ) ) {
+            this.showToast( 'warning', 'Manager With Portal' + tm.managerPortalId, 'Doesnot exist.!!' );
+            event.confirm.reject();
         }
         else {
             let tm = new TeamDetails();
@@ -202,7 +215,11 @@ export class TeamDetailTableComponent implements OnInit {
         } else if ( !this.validateMemberJson( newTeamDetails ) ) {
             this.showToast( 'error', 'Some Fields are empty', 'Fill in All Fields' );
             event.confirm.reject();
-        } else {
+        } else if ( !this.checkIfManagerWithPortalIdExists( newTeamDetails.managerPortalId ) ) {
+            this.showToast( 'warning', 'Manager With Portal' + newTeamDetails.managerPortalId, 'Doesnot exist.!!' );
+            event.confirm.reject();
+        }
+        else {
             var memberArray: string[] = [JSON.stringify( oldTeamDetails ), JSON.stringify( newTeamDetails )];
             this.teamDetailService.editTeamDetails( memberArray ).subscribe( o => {
                 this.showToast( 'success', 'Team Details: ' + newTeamDetails.teamName, 'Successfully Edited !!' );
@@ -237,5 +254,14 @@ export class TeamDetailTableComponent implements OnInit {
         // second parameter specifying whether to perform 'AND' or 'OR' search
         // (meaning all columns should contain search query or at least one)
         // 'AND' by default, so changing to 'OR' by setting false here
+    }
+
+    /**
+     * Returns true if manager with portal exists or else false;
+     * @param m -> portal id
+     */
+    checkIfManagerWithPortalIdExists( m: string ): boolean {
+        let mg: ManagerDetails = this.managerList.find( n => n.portalId.toString() == m.toString() );
+        return mg ? true : false;
     }
 }

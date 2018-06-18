@@ -7,6 +7,7 @@ import { switchMap, map, catchError } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { MemberDetailFormService } from './member-detail-form.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { TeamDetails } from '../../@model/teamDetails';
 
 // all URL Constants
 const DASHBOARD: NbMenuItem = {
@@ -251,18 +252,18 @@ export class DynamicMenuService {
         return observableOf( NEBULAR_ALL_MENU );
     }
 
-    convertTeamNamedToDetails(): Observable<string[]> {
+    convertTeamNamedToDetails(): Observable<TeamDetails[]> {
         return this.memberDetailService.fetchTeamDetais();
     }
 
     convertToTeamMenuList(): NbMenuItem[] {
         let menusArray: NbMenuItem[] = new Array<NbMenuItem>();
-        let menus: string[];
-        this.convertTeamNamedToDetails().subscribe( o => { menus = o } );
+        let menus: string[] = new Array();
+        this.convertTeamNamedToDetails().subscribe( o => { o.forEach( p => { menus.push( p.teamName ) } ) } );
         menus.forEach( e => {
             let m: NbMenuItem = new NbMenuItem();
             m.title = e;
-            m.link = '/pages/charts/dynamicchart/'.concat(e);
+            m.link = '/pages/charts/dynamicchart/'.concat( e );
             m.queryParams = { 'teamName': e.toString() };
             menusArray.push( m );
         } );
