@@ -225,9 +225,12 @@ export class MemberDetailFormComponent implements OnInit, OnDestroy {
         console.log( o.term );
         //search Member
         this.memberService.fetchMemberByPortalId( o.term ).subscribe(
-            o => { console.log( o ), this.reLoadValuesToScreen( o ) },
+            o => {
+                console.log( o );
+                o ? this.reLoadValuesToScreen( o ) : this.onErrorToaster( 'Member Not Found' );
+                o ? this.showToast( 'info', 'Member with Portal Id ' + o.portalId, ' Found !!' ) : this.clearForm( null );
+            },
             err => { this.onErrorToaster( 'Member Not Found' ) },
-            () => { this.showToast( 'info', 'Member with Portal Id ' + o.term, ' Found !!' ) }
         );
         // console.log( b );
     }
